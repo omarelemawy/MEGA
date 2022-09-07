@@ -31,6 +31,7 @@ class _OfferScreenState extends State<OfferScreen> {
         builder: (context,state){
           var productsOfferList = OfferCubit.get(context).productsOfferList;
           var ima="https://megamatgr.com/wp-content/uploads/2022/07/2cc434a0-e78c-4145-bb02-bb3910624bad-300x300.jpg";
+          var ima1="https://megamatgr.com/wp-content/uploads/2022/07/0289ab0c-ad6b-45d7-a818-18c64bbaeffe-300x300.jpeg";
           ProductsModel pro=ProductsModel(
               id: 1,
               name: "omatejijs",
@@ -45,7 +46,7 @@ class _OfferScreenState extends State<OfferScreen> {
                 ),
                 Photo(
                     name: "jgsiojg",
-                    url: ima
+                    url: ima1
                 ),
                 Photo(
                     name: "jgsiojg",
@@ -53,7 +54,7 @@ class _OfferScreenState extends State<OfferScreen> {
                 ),
                 Photo(
                     name: "jgsiojg",
-                    url: ima
+                    url: ima1
                 ),
               ],
               price: "1000",
@@ -80,7 +81,7 @@ class _OfferScreenState extends State<OfferScreen> {
                   getTranslated(context, "Offers",)!,
                   max: 1,
                   overflow: TextOverflow.ellipsis,
-                  color: customColor,
+                  color: HexColor("#50555C"),
                   fontWeight: FontWeight.bold
               ),
             ),

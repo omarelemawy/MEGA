@@ -275,6 +275,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
       ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       /*bottomNavigationBar: connectWithUsWhatsApp(context,widget.phone),*/
       floatingActionButton: /*AddressCubit.get(context).cartDataModel!.isEmpty?
       Container():*/

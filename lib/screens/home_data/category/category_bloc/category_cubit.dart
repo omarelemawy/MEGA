@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:gnon/models/product_model.dart';
 import 'package:gnon/screens/home_data/category/category_bloc/category_state.dart';
 import '../../../../constants/utils.dart';
@@ -12,29 +14,25 @@ import '../../../../sharedPreferences.dart';
 class CategoryCubit extends Cubit<CategoryState> {
   CategoryCubit() : super(InitialCategoryState());
   static CategoryCubit get(context)=>BlocProvider.of(context);
-  List<Category> categoryList=[];
+  List<CategoryListModel> categoryList=[];
   List<ProductsModel> categoryProductList=[];
 
 
-  Future<List<Category>?> getCategory(lang)async{
+  Future<List<CategoryListModel>?> getCategory(lang)async{
     emit(GetLoadingCategoryState());
-    var response = await Dio().get(
-        Utils.Category_URL,options:
-    Options(headers: {
-      "lang":lang,
-      "Accept-Language":lang,
-    })
+    final response = await http.get(
+      Uri.parse(Utils.Category_URL+'?consumer_key=ck_7b06588bcc97aea8ffd7025d81d468f7abd902a6&consumer_secret=cs_e792875f045471bbcbb999d8d841d37842ef3c5b'),
     );
-    if(response.data["status"]=="success")
+    Iterable l = json.decode(response.body);
+    if(response.statusCode == 200)
     {
       emit(GetSuccessCategoryState());
-      return CategoryModel.fromJson(response.data).data;
+      return List<CategoryListModel>.from(l.map((model)=> CategoryListModel.fromJson(model)));
     }else{
-      emit(GetErrorCategoryState(response.data["message"]));
+      emit(GetErrorCategoryState(json.decode(response.body)["message"]));
     }
   }
   void getCat(lang){
-
     getCategory(lang).then((value) {
       categoryList=value!;
     });

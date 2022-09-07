@@ -23,7 +23,7 @@ class _YouMayLikeHomeState extends State<YouMayLikeHome> {
         mainAxisSpacing: 10,
         crossAxisSpacing: 10,
         crossAxisCount: 2,
-          mainAxisExtent:MediaQuery.of(context).size.height/3.1
+          mainAxisExtent:MediaQuery.of(context).size.height/3.4
       ),
       scrollDirection: Axis.vertical,
       physics: widget.physics,

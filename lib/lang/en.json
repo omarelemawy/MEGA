@@ -150,11 +150,18 @@
   "Update Data Success": "Update Data Success",
   "Pin Code": "Pin Code",
   "password confirmation": "password confirmation",
-  "Remove Account": "Remove Account",
+  "Remove Account": "Delete Account",
   "Are you sure?": "Are you sure?",
   "Please be aware that you cannot retrieve this data again": "Please be aware that you cannot retrieve this data again",
   "Submit": "Submit",
-  "Favorite": "Favorite"
+  "Favorite": "Favorite",
+  "Forget Password": "Forget Password",
+  "Send": "Send",
+  "Verification Code": "Verification Code",
+  "Reset PassWord": "Reset PassWord",
+  "Send Review": "Send Review",
+  "Change Email": "Change Email",
+  "we will send verification code to your new email": "we will send verification code to your new email"
 
 
 }

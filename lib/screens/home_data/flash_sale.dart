@@ -14,7 +14,7 @@ class _FlashSaleState extends State<FlashSale> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height/3.1,
+      height: MediaQuery.of(context).size.height/3.4,
       child: categoresGridView(widget.list, context),
     );
   }
@@ -23,6 +23,7 @@ class _FlashSaleState extends State<FlashSale> {
       itemCount: list.length <6?list.length:6,
       scrollDirection: Axis.horizontal,
       shrinkWrap: true,
+      padding: EdgeInsets.zero,
       itemBuilder: (BuildContext context, int index) {
         return  CardHome(widget.myContext,list: list,index: index,);
       }, separatorBuilder: (BuildContext context, int index) {

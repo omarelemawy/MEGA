@@ -79,6 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       const SizedBox(height: 50,),
                       Image.asset("lib/images/gnon-red-logo.png",height: 80 ,),
+                      const SizedBox(height: 30,),
                       customText(
                           getTranslated(context, "Let’s Get Started",)!,
                           fontWeight: FontWeight.bold,
@@ -106,56 +107,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       const SizedBox(height: 20,),
-
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: CountryCodePicker(
-                              onChanged: (print) {
-                                countryCode = print.toString();
-                              },
-                              // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                              initialSelection: 'EG',
-                              favorite: ['+20', 'EG'],
-                              // optional. Shows only country name and flag
-                              showCountryOnly: false,
-                              // optional. Shows only country name and flag when popup is closed.
-                              showOnlyCountryWhenClosed: false,
-                              // optional. aligns the flag and the Text left
-                              alignLeft: false,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: TextFormField(
-                              controller: phoneController,
-                              keyboardType: TextInputType.number,
-                              style: const TextStyle(color: Colors.black),
-                              validator: (val) {
-                                if(val!.isEmpty) {
-                                  return getTranslated(context,
-                                    " Oops! Your Phone Is Not Correct ",);
-                                }/*else if(phoneController.text.length < 11){
-                                  return "The Phone Number Must be 11 Character";
-                                }*/else{
-                                  return null;
-                                }
-                              },
-                              onChanged: (val) {
-                                phoneNumber = val;
-                              },
-                              decoration: textFormInputDecoration(
-                                Icons.phone,
-
-                                getTranslated(context, "Your Phone",)!,
-                                error: checkPhoneError()
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 20,),
                       TextFormField(
                         controller: emailController,
                         validator: (val) {
@@ -169,17 +120,100 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           return null;
                         },
                         decoration: InputDecoration(
-                           errorText: checkEmailError(),
+                            errorText: checkEmailError(),
                             contentPadding: const EdgeInsets.all(10),
                             hintStyle: TextStyle(color:customTextColor.withOpacity(0.5) ),
-                            prefixIcon:  Icon(Icons.phone,color:customTextColor.withOpacity(0.5)),
-                            hintText: getTranslated(context, "Your Email",)!
-                            ,
+                            prefixIcon:  Icon(Icons.email_outlined,color:customTextColor.withOpacity(0.5)),
+                            hintText: getTranslated(context, "Your Email",)!,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)
                             )
                         ),
                       ),
+                      const SizedBox(height: 20,),
+                      TextFormField(
+                        controller: phoneController,
+                        keyboardType: TextInputType.number,
+                        style: const TextStyle(color: Colors.black),
+                        validator: (val) {
+                          if(val!.isEmpty) {
+                            return getTranslated(context,
+                              " Oops! Your Phone Is Not Correct ",);
+                          }/*else if(phoneController.text.length < 11){
+                                  return "The Phone Number Must be 11 Character";
+                                }*/else{
+                            return null;
+                          }
+                        },
+                        onChanged: (val) {
+                          phoneNumber = val;
+                        },
+                        decoration: InputDecoration(
+                            errorText: checkPhoneError(),
+                            contentPadding: const EdgeInsets.all(10),
+                            hintStyle: TextStyle(color:customTextColor.withOpacity(0.5) ),
+                            prefixIcon:  Icon(Icons.phone,color:customTextColor.withOpacity(0.5)),
+                            hintText: getTranslated(context, "Your Phone",)!,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10)
+                            )
+                        ),
+                        /*textFormInputDecoration(
+                            Icons.phone,
+
+                            getTranslated(context, "Your Phone",)!,
+                            error: checkPhoneError()
+                        ),*/
+                      ),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       flex: 2,
+                      //       child: CountryCodePicker(
+                      //         onChanged: (print) {
+                      //           countryCode = print.toString();
+                      //         },
+                      //         // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                      //         initialSelection: 'EG',
+                      //         favorite: ['+20', 'EG'],
+                      //         // optional. Shows only country name and flag
+                      //         showCountryOnly: false,
+                      //         // optional. Shows only country name and flag when popup is closed.
+                      //         showOnlyCountryWhenClosed: false,
+                      //         // optional. aligns the flag and the Text left
+                      //         alignLeft: false,
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       flex: 3,
+                      //       child: TextFormField(
+                      //         controller: phoneController,
+                      //         keyboardType: TextInputType.number,
+                      //         style: const TextStyle(color: Colors.black),
+                      //         validator: (val) {
+                      //           if(val!.isEmpty) {
+                      //             return getTranslated(context,
+                      //               " Oops! Your Phone Is Not Correct ",);
+                      //           }/*else if(phoneController.text.length < 11){
+                      //             return "The Phone Number Must be 11 Character";
+                      //           }*/else{
+                      //             return null;
+                      //           }
+                      //         },
+                      //         onChanged: (val) {
+                      //           phoneNumber = val;
+                      //         },
+                      //         decoration: textFormInputDecoration(
+                      //           Icons.phone,
+                      //
+                      //           getTranslated(context, "Your Phone",)!,
+                      //           error: checkPhoneError()
+                      //         ),
+                      //       ),
+                      //     )
+                      //   ],
+                      // ),
+
 
                       const SizedBox(height: 20,),
                       TextFormField(

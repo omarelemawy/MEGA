@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final _controller = PersistentTabController(initialIndex:initialIndex!);
     return BlocProvider(
-      create: (context) => HomeCubit()..getSettings(widget.lang),
+      create: (context) => HomeCubit()/*..getSettings(widget.lang)*/,
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
           // TODO: implement listener
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: const Icon(CupertinoIcons.home),
                 title: (getTranslated(context, "Home",)!
                 ),
-                activeColorPrimary: customColor,
+                activeColorPrimary: HexColor("#50555C"),
                 inactiveColorPrimary: HexColor("#9098B1"),
               ),
 
@@ -76,21 +76,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       , color: Colors.white, size: 12),
                 ),*/
                 title: (getTranslated(context, "Account",)!),
-                activeColorPrimary: customColor,
+                activeColorPrimary: HexColor("#50555C"),
                 inactiveColorPrimary: HexColor("#9098B1"),
               ),
 
               PersistentBottomNavBarItem(
                 icon: const Icon(Icons.local_offer_outlined),
                 title: (getTranslated(context, "Offers",)!),
-                activeColorPrimary: customColor,
+                activeColorPrimary: HexColor("#50555C"),
                 inactiveColorPrimary: HexColor("#9098B1"),
               ),
 
               PersistentBottomNavBarItem(
                 icon: const Icon(Icons.favorite_outline),
                 title: (getTranslated(context, "Favorite",)!),
-                activeColorPrimary: customColor,
+                activeColorPrimary: HexColor("#50555C"),
                 inactiveColorPrimary: HexColor("#9098B1"),
               ),
             ];

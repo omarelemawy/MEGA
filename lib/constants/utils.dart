@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class Utils {
 
-  static const BASE_URL = "https://gonoun.net/api";
+  static const BASE_URL = "https://megamatgr.com/wp-json";
 
   // ignore: non_constant_identifier_names
   static final Update_fcm_URL =
@@ -16,7 +16,8 @@ class Utils {
 
 
 
-  static const Category_URL = "$BASE_URL/sections";
+  static const Category_URL = "$BASE_URL/wc/v3/products/categories";
+
   static const ProductDetails_URL = "$BASE_URL/product/";
   static const CategoryProduct_URL = "$BASE_URL/products";
 

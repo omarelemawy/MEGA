@@ -137,7 +137,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
 
               }
                   ,context,
-                  getTranslated(context, "Review",)!,
+                  getTranslated(context, "Send Review",)!,
                   color: HexColor("#BA6400")
                   ,width: MediaQuery.of(context).size.width
               )

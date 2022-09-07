@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gnon/models/category_model.dart';
+import '../../models/category_model.dart';
 import 'category/card_category.dart';
 
 class HomeCategooriesBody extends StatelessWidget {
@@ -14,7 +14,7 @@ class HomeCategooriesBody extends StatelessWidget {
   }) : super(key: key);
   var myContext;
   String? lang;
-  List<Category> categoryList;
+  List<CategoryListModel> categoryList;
   String phone;
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class HomeCategooriesBody extends StatelessWidget {
     );
   }
 
-  categoresGridView(List<Category> list, BuildContext context) {
+  categoresGridView(List<CategoryListModel> list, BuildContext context) {
     return ListView.separated(
       itemCount: 10,
       scrollDirection: Axis.horizontal,

@@ -54,25 +54,10 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                       children: [
                         Image.asset("lib/images/gnon-red-logo.png",height: 150,width: 150,),
                         const SizedBox(height: 20,),
-                        customText("Reset PassWord"
+                        customText(getTranslated(context, "Reset PassWord")!
                             , fontWeight: FontWeight.w100,size: 16,color: HexColor("#9098B1")),
-                        const SizedBox(height: 40,),
-                        TextFormField(
-                          controller: pinController,
-                          validator: (val) =>val!.isEmpty?
-                          getTranslated(context, " Oops! Your Email Is Not Correct ",)!
-                              : null,
-                          decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(10),
-                              prefixIcon: const Icon(Icons.qr_code),
-                              hintText: getTranslated(context, "Pin Code",)!,
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10)
-                              )
-                          ),
-                        ),
 
-                        const SizedBox(height: 20,),
+                        const SizedBox(height: 40,),
                         TextFormField(
                           controller: passController,
                           validator: (val) =>val!.isEmpty?
@@ -116,7 +101,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                           if (_formKey.currentState!.validate()) {
                             print("bbsdrbge");
                             if(confirmPassController.text==passController.text) {
-                              LoginCubit.get(context).
+                             /* LoginCubit.get(context).
                               resetPass(Localizations
                                       .localeOf(context)
                                       .languageCode,
@@ -125,7 +110,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                                   passController.text,
                                   confirmPassController.text,
                                   widget.email
-                              );
+                              );*/
                             }
                           }
                         },context,

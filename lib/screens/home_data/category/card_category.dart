@@ -9,7 +9,7 @@ import 'category_screen.dart';
 class CardCategory extends StatefulWidget {
   CardCategory(this.myContext,lang,this.phone,
       {Key? key,this.list,this.index}) : super(key: key);
-  List<Category>? list;
+  List<CategoryListModel>? list;
   String? lang;
   String? phone;
   var myContext;
@@ -27,10 +27,11 @@ class _CardCategoryState extends State<CardCategory> {
 
         Navigator.push(widget.myContext,
             MaterialPageRoute(builder:
-                (context)=>CategoryScreen(widget.myContext,Localizations.localeOf(context).languageCode
-                    /*,widget.list![widget.index!].id!,
+                (context)=>CategoryScreen(widget.myContext,
+                    Localizations.localeOf(context).languageCode,
+                   /* ,widget.list![widget.index!].id!,
                     widget.list![widget.index!].name,*/
-                   , widget.phone))
+                   widget.phone))
         );
       },
       child: Column(
@@ -45,10 +46,12 @@ class _CardCategoryState extends State<CardCategory> {
                 decoration:  const BoxDecoration(
                   shape: BoxShape.circle,
                 ),
-                child: customCachedNetworkImage(
+                child: widget.list![widget.index!].image==null?
+                    Container():
+                customCachedNetworkImage(
                   boxFit: BoxFit.cover,
                   context: context,
-                  url: "https://megamatgr.com/wp-content/uploads/2022/07/%D8%A7%D9%84%D8%B9%D9%86%D8%A7%D9%8A%D8%A9-%D8%A7%D9%84%D8%B4%D8%AE%D8%B5%D9%8A%D8%A9-1.png",
+                  url: widget.list![widget.index!].image!.src,
                 ),
               ),
 
@@ -59,7 +62,7 @@ class _CardCategoryState extends State<CardCategory> {
             width: 90,
             child: Center(
               child: Text(
-                /*widget.list![widget.index!].name!*/"Category  Name ",
+                widget.list![widget.index!].name!,
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 style: TextStyle(

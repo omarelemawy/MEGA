@@ -155,5 +155,13 @@
   "Are you sure?": "هل أنت متأكد؟",
   "Please be aware that you cannot retrieve this data again": "يرجى العلم بأنه لا يمكنك استرجاع هذه البيانات مره أخرى",
   "Submit": "تأكيد",
-  "Favorite":"مفضل"
+  "Favorite":"مفضل",
+  "Forget Password":"نسيت كلمة المرور",
+  "Send": "إرسال",
+  "Verification Code": "رمز التحقق",
+  "Reset PassWord": "إعادة تعيين كلمة المرور",
+  "Send Review": "إرسال مراجعة",
+  "Change Email": "تغيير الايميل",
+  "we will send verification code to your new email": "سنرسل رمز التحقق إلى بريدك الإلكتروني الجديد"
+
 }

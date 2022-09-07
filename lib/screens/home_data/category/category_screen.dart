@@ -159,7 +159,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 "moaomo"/*widget.name!*/
                 ,
                 max: 1, overflow: TextOverflow.ellipsis,
-                color: customColor,
+                color: HexColor("#50555C"),
                 fontWeight: FontWeight.bold
             ),
           ),
@@ -181,7 +181,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
 
           /*WillPopScope(
-          *//*onWillPop: () async {
+          */
+          /*onWillPop: () async {
             MySharedPreferences().getUserUserEmail().then((value) {
               Navigator.pushAndRemoveUntil(widget.myContext,
                   MaterialPageRoute(builder:

@@ -208,6 +208,7 @@ class _MyProductCarouseSliderState extends State<MyProductCarouseSlider> {
               ),
             ).toList(),
           ),
+          SizedBox(height: 20,),
           DotsIndicator(
             dotsCount: widget.items!.length,
             position: widget.index!,

@@ -89,7 +89,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
               title: customText(
                   getTranslated(context,  "Search Results ",)!
                   ,
-                  color: customColor,fontWeight: FontWeight.bold,
+                  color: HexColor("#000000"),fontWeight: FontWeight.bold,
                   max: 1,overflow: TextOverflow.ellipsis
               ),
               centerTitle: false,

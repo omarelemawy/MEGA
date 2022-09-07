@@ -125,6 +125,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 return true;
               },
             child: Scaffold(
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
               floatingActionButton:
               state is AddToCartLoadingProductDetailsState?
               const Center(
@@ -174,7 +175,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     Container():*/
               customText(
               "Product Name will dispaly here ",
-                    color: customColor,fontWeight: FontWeight.bold,
+                    color: HexColor("#50555C"),fontWeight: FontWeight.bold,
                     max: 1,overflow: TextOverflow.ellipsis
                 ),
                 centerTitle: false,
@@ -206,13 +207,16 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     /*HomeCubit.get(context).photos!.isNotEmpty?*/
-                    MyProductCarouseSlider(items:
-                    [
-                      "https://megamatgr.com/wp-content/uploads/2022/07/0b923ea9-1953-4e4f-90f6-1d00df803bba-300x300.jpg",
-                      "https://megamatgr.com/wp-content/uploads/2022/07/474d8aa5-5876-44b7-9cac-c1a26f4170f1-300x300.jpg",
-                      "https://megamatgr.com/wp-content/uploads/2022/07/474d8aa5-5876-44b7-9cac-c1a26f4170f1-300x300.jpg"
-                    ],
-                      autoPlay: false,margin: 0,)/*:Container()*/,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: MyProductCarouseSlider(items:
+                      [
+                        "https://megamatgr.com/wp-content/uploads/2022/07/0b923ea9-1953-4e4f-90f6-1d00df803bba-300x300.jpg",
+                        "https://megamatgr.com/wp-content/uploads/2022/07/474d8aa5-5876-44b7-9cac-c1a26f4170f1-300x300.jpg",
+                        "https://megamatgr.com/wp-content/uploads/2022/07/474d8aa5-5876-44b7-9cac-c1a26f4170f1-300x300.jpg"
+                      ],
+                        autoPlay: false,margin: 0,),
+                    )/*:Container()*/,
 
                     const SizedBox(height: 5,),
                     Row(
@@ -316,8 +320,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           width: 90,
                           child: Text(
                             /*productDetails.data!.product!.offer==null?
-                            "${productDetails.data!.product!.price!} AED":*/
-                            "${32} AED",
+                            "${productDetails.data!.product!.price!} SAR":*/
+                            "${32} SAR",
                             maxLines: 1,
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -335,7 +339,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             const SizedBox(width: 10,),
                             SizedBox(
                               child:  Text(
-                                "${120/*productDetails.data!.product!.price!*/} AED",
+                                "${120/*productDetails.data!.product!.price!*/} SAR",
                                 maxLines: 1,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w200,
@@ -376,7 +380,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             getTranslated(context,  "Details",)!
                             ,
                             fontWeight: FontWeight.bold,
-                            color: customColor),
+                            color: HexColor("#F57E2E")),
                       ],
                     ),
                     Padding(
@@ -421,7 +425,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           child: customText(
                               getTranslated(context,  "See More",)!
                               ,fontWeight:
-                          FontWeight.bold,color: customColor,
+                          FontWeight.bold,color: HexColor("#898A8D"),
                               size: 12),
                         ),
                         const SizedBox(width: 10,),

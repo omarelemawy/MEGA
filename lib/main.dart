@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:gnon/screens/auth/login/login_screen.dart';
 import 'package:gnon/screens/home/home_screen.dart';
 import 'package:gnon/sharedPreferences.dart';
@@ -13,7 +14,8 @@ Locale? _locale;
 String? email;
 
 void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   language = await MySharedPreferences.getAppLang();
   if(language!=null){
     locale1=language;
@@ -45,7 +47,7 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
+    FlutterNativeSplash.remove();
     return MaterialApp(
       supportedLocales: const [
         Locale('ar', 'EG'),

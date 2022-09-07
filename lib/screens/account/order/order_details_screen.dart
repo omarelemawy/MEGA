@@ -344,7 +344,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         customText("12"/*widget.ordersListData!.itemsCount.toString()*/,
                             color: HexColor("#9098B1"), size: 12),
                         const Spacer(),
-                        customText("AED ${"120"/*widget.ordersListData!.total!*/}",
+                        customText("SAR ${"120"/*widget.ordersListData!.total!*/}",
                             color: customTextColor, size: 12),
                       ],
                     ),
@@ -358,7 +358,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             ,
                             color: HexColor("#9098B1"), size: 12),
                         const Spacer(),
-                        customText("AED ${"30"/*widget.ordersListData!.shippingCost!*/}",
+                        customText("SAR ${"30"/*widget.ordersListData!.shippingCost!*/}",
                             color: customTextColor, size: 12),
                       ],
                     ),
@@ -371,7 +371,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             getTranslated(context,"Import charges")!,
                             color: HexColor("#9098B1"), size: 12),
                         const Spacer(),
-                        customText("\$200.86",
+                        customText("SAR200.86",
                             color: customTextColor, size: 12),
                       ],
                     ),
@@ -390,7 +390,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             size: 12),
                         const Spacer(),
                         customText(
-                            "AED ${"40"/*widget.ordersListData!.discount!*/}"
+                            "SAR ${"40"/*widget.ordersListData!.discount!*/}"
                             ,color: customTextColor,
                             size: 12),
                       ],
@@ -422,7 +422,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             color: customTextColor, size: 12),
                         const Spacer(),
                         customText(
-                            "AED ${
+                            "SAR ${
                                 (int.parse( "30"/*widget.ordersListData!.total!*/)+
                                    40/*widget.ordersListData!.shippingCost!*/)
                                     -
@@ -527,8 +527,8 @@ class _CartItemState extends State<CartItem> {
                   Container() :*/
                   Text(
                     /*widget.itemsordersListData!.offer==null ?
-                    "${widget.itemsordersListData!.price} AED" :*/
-                    "${40/*widget.itemsordersListData!.offer!*/} AED",
+                    "${widget.itemsordersListData!.price} SAR" :*/
+                    "${40/*widget.itemsordersListData!.offer!*/} SAR",
                     maxLines: 1,
                     style:  TextStyle(
                         fontWeight: FontWeight.bold,
@@ -545,7 +545,7 @@ class _CartItemState extends State<CartItem> {
                   children: [
                     SizedBox(
                       child: Text(
-                        "${40/*widget.itemsordersListData!.price!*/} AED",
+                        "${40/*widget.itemsordersListData!.price!*/} SAR",
                         maxLines: 1,
                         style: TextStyle(
                             fontWeight: FontWeight.w200,

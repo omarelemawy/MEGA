@@ -82,7 +82,7 @@ class _CardHomeState extends State<CardHome> {
                   children: [
                     widget.list![widget.index!].photos!.isEmpty ?
                     Container(
-                      height: 145,
+                      height: MediaQuery.of(context).size.height/3,
                       width: MediaQuery
                           .of(context)
                           .size
@@ -90,7 +90,7 @@ class _CardHomeState extends State<CardHome> {
                       child: Image.asset("lib/images/gnon-red-logo.png"),
                     ) :
                     Container(
-                      height: 145,
+                      height:MediaQuery.of(context).size.height/5.5,
                       width: MediaQuery
                           .of(context)
                           .size
@@ -186,8 +186,8 @@ class _CardHomeState extends State<CardHome> {
                   Container() :
                   Text(
                     widget.list![widget.index!].offer == null ?
-                    "${widget.list![widget.index!].price!} AED" :
-                    "${widget.list![widget.index!].offer!} AED",
+                    "${widget.list![widget.index!].price!} SAR" :
+                    "${widget.list![widget.index!].offer!} SAR",
                     maxLines: 1,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
@@ -204,7 +204,7 @@ class _CardHomeState extends State<CardHome> {
                   children: [
                     SizedBox(
                       child: Text(
-                        "${widget.list![widget.index!].price!} AED",
+                        "${widget.list![widget.index!].price!} SAR",
                         maxLines: 1,
                         style: TextStyle(
                             fontWeight: FontWeight.w200,
@@ -219,7 +219,7 @@ class _CardHomeState extends State<CardHome> {
                     SizedBox(
                       child: Text(
                         "${getOffer(widget.list![widget.index!].offer!,
-                            widget.list![widget.index!].price!)} %"
+                            widget.list![widget.index!].price!)} % Off"
                         ,
                         maxLines: 1,
                         style: TextStyle(

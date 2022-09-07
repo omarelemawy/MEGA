@@ -24,6 +24,7 @@ class _ViewAllReviewsState extends State<ViewAllReviews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton:customFloatingActionButton(context,
           color: HexColor("#BA6400"),
           text: getTranslated(context, "Write Review",)!
@@ -77,8 +78,8 @@ class _ViewAllReviewsState extends State<ViewAllReviews> {
           Navigator.pop(context);
         }, icon:
         const Icon(Icons.arrow_back_ios,size: 14,)),
-        title: customText(" ${getTranslated(context, "Reviews")}     "
-            " ${10/*widget.reviews!.length*/} ",fontWeight: FontWeight.bold),
+        title: customText(" ${10/*widget.reviews!.length*/} "" ${getTranslated(context, "Reviews")}     "
+            ,fontWeight: FontWeight.bold),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 10,bottom: 80),

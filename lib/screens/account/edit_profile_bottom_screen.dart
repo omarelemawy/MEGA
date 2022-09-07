@@ -8,6 +8,7 @@ import 'package:gnon/constants/widget.dart';
 import 'package:gnon/screens/account/account_bloc/account_cubit.dart';
 import 'package:gnon/screens/account/account_bloc/account_state.dart';
 import 'package:gnon/sharedPreferences.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 
 import '../../constants/color_constans.dart';
@@ -124,6 +125,7 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
 
                         customFloatingActionButton(
                             context,
+                            color: HexColor("#BA6400"),
                             text:getTranslated(context,"Save",)!,
                             onPress: () {
                               Navigator.pop(context);
@@ -184,6 +186,7 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
 
                           customFloatingActionButton(
                               context,
+                              color: HexColor("#BA6400"),
                               text:getTranslated(context,"Save",)!,
                               onPress: () {
                                 print(date);
@@ -221,6 +224,14 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Row(
+                          children: [
+                            customText(getTranslated(context, "Change Email")!
+                                ,color: HexColor("#223263"),
+                            size: 16,fontWeight: FontWeight.bold),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
                         TextFormField(
                           controller: emailController,
                           keyboardType: TextInputType.emailAddress,
@@ -236,6 +247,13 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
                                 color: Colors.grey,)
                           ),
                         ),
+                        Row(
+                          children: [
+                            customText(getTranslated(context, "we will send verification code to your new email")!
+                              ,color: HexColor("#223263"),
+                              size: 15,),
+                          ],
+                        ),
                         const SizedBox(height: 30),
 
                         state is UpdateProfileLoadingAccountState?
@@ -248,6 +266,7 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
 
                         customFloatingActionButton(
                             context,
+                            color: HexColor("#BA6400"),
                             text:getTranslated(context,"Save",)!,
                             onPress: () {
                               Navigator.pop(context);
@@ -300,6 +319,7 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
                         ),
                         const SizedBox(height: 30),
 
+
                         state is UpdateProfileLoadingAccountState?
                         const Center(
                           child:  SpinKitChasingDots(
@@ -310,6 +330,7 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
 
                         customFloatingActionButton(
                             context,
+                            color: HexColor("#BA6400"),
                             text:getTranslated(context,"Save",)!,
                             onPress: () {
                               Navigator.pop(context);
@@ -371,6 +392,7 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
 
                         customFloatingActionButton(
                             context,
+                            color: HexColor("#BA6400"),
                             text:getTranslated(context,"Save",)!,
                             onPress: () {
                               Navigator.pop(context);
@@ -460,6 +482,7 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
 
                         customFloatingActionButton(
                             context,
+                            color: HexColor("#BA6400"),
                             text:getTranslated(context,"Save",)!,
                             onPress: () {
                               Navigator.pop(context);

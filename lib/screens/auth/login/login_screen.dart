@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gnon/constants/color_constans.dart';
 import 'package:gnon/screens/auth/login/cubit_login/login_cubit.dart';
 import 'package:gnon/screens/auth/register/register_screen.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../constants/MediaButton.dart';
 import '../../../constants/themes.dart';
 import '../../../localization/localization_constants.dart';
@@ -60,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        PopupMenuButton(
+                        /*PopupMenuButton(
                             icon: Icon(
                               Icons.language,
                               color: HexColor("#40BFFF"),
@@ -86,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onSelected:(Language value){
                               _changeLanguage(value);
                             }
-                        ),
+                        ),*/
 
                         const Spacer(),
                         TextButton(onPressed: ()async{
@@ -190,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    /* InkWell(
+                     InkWell(
                       onTap: () {
                         setState(() {
                         });
@@ -216,9 +218,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 15),
                     InkWell(
                       onTap: () {
-                        setState(() async{
-                          */
-                    /* AccessToken? result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
+                        /*setState(() async{
+                     AccessToken? result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
 // or FacebookAuth.i.login()
                           if (result!.userId.isNotEmpty) {
                             // you are logged
@@ -226,9 +227,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           } else {
                             print(result.token);
                             print(result.userId);
-                          }*/
-                    /*
-                        });
+                          }
+                        });*/
                       },
                       child: Container(
                         padding: const EdgeInsets.all(10),
@@ -263,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         },
                       ),
-                    ),*/
+                    ),
                     InkWell(
                       onTap: (){
                         Navigator.push(context,

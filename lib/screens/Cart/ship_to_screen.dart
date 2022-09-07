@@ -120,7 +120,7 @@ class _ShipToScreenState extends State<ShipToScreen> {
                   width:
                   MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      color: HexColor("#087DA9"),
+                      color: HexColor("#ED1C24"),
                       border: Border.all(
                           color: customTextColor
                               .withOpacity(.2)),
@@ -263,6 +263,7 @@ class _ShipToScreenState extends State<ShipToScreen> {
     }
 
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton:
       widget.withFloatingActionButton!?
       customFloatingActionButton(context, onPress: () {

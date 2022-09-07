@@ -67,7 +67,7 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
                   ,fontWeight: FontWeight.bold),
               backgroundColor: Colors.white,
             ),
-
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
             floatingActionButton: state is GetLoadingCreateAddressState?
             const SpinKitChasingDots(
               color: customColor,

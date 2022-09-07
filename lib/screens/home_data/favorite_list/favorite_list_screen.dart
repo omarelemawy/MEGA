@@ -78,7 +78,7 @@ class _FavoriteListScreenState extends State<FavoriteListScreen> {
         elevation: 1,
         title: customText(
             getTranslated(context, "Favorite List",)!,
-            color: customColor,fontWeight: FontWeight.bold,
+            color: HexColor("#50555C"),fontWeight: FontWeight.bold,
             max: 1,overflow: TextOverflow.ellipsis
         ),
         centerTitle: false,
@@ -95,7 +95,8 @@ class _FavoriteListScreenState extends State<FavoriteListScreen> {
         },
             icon: Icon(Icons.arrow_back_ios,color: HexColor("#9098B1"),size: 15,)),*/
       ),
-      body: /*state is GetLoadingFavState?const
+      body:
+      /*state is GetLoadingFavState?const
       Center(
         child:  SpinKitChasingDots(
           color: customColor,
@@ -164,7 +165,7 @@ class _FavoriteListScreenState extends State<FavoriteListScreen> {
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
             crossAxisCount: 2,
-            mainAxisExtent:MediaQuery.of(context).size.height/3.5
+            mainAxisExtent:MediaQuery.of(context).size.height/4
         ),
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
@@ -300,7 +301,7 @@ class _CardFavoriteState extends State<CardFavorite> {
               SizedBox(
                 child: Text(
                   "${getOffer(widget.list![widget.index!].offer!,
-                      widget.list![widget.index!].price!)} %"
+                      widget.list![widget.index!].price!)} % Off"
                   ,
                   maxLines: 1,
                   style: TextStyle(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gnon/screens/auth/forget_pass/reset_pass.dart';
+import 'package:gnon/screens/auth/forget_pass/virification_code_screen.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../../constants/MediaButton.dart';
@@ -52,9 +54,13 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset("lib/images/gnon-red-logo.png",height: 150,width: 150,),
-                        const SizedBox(height: 20,),
+
+                        customText(getTranslated(context, "Forget Password",)!,
+                            fontWeight: FontWeight.bold,size: 16,color: HexColor("#223263")),
+                        const SizedBox(height: 10,),
                         customText(getTranslated(context, "Fill Your Email to continue",)!,
                             fontWeight: FontWeight.w100,size: 16,color: HexColor("#9098B1")),
+
                         const SizedBox(height: 40,),
                         TextFormField(
                           controller: emailController,
@@ -82,15 +88,17 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                         ):
                         customButton((){
                           if (_formKey.currentState!.validate()) {
-                            print("bbsdrbge");
+                            Navigator.push(context, MaterialPageRoute(builder:
+                                (context)=>VerificationCodeScreen()));
+                            /*print("bbsdrbge");
                             LoginCubit.get(context).
                             forgetPass(emailController.text,
                                 Localizations.localeOf(context).languageCode,
                                 context
-                            );
+                            );*/
                           }
                         },context,
-                            getTranslated(context, "Confirm",)!
+                            getTranslated(context, "Send",)!
                             ,textColor: Colors.white,
                             height: MediaQuery.of(context).size.height / 16,
                             width: MediaQuery.of(context).size.width

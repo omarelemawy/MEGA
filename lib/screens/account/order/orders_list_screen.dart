@@ -162,7 +162,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                     getTranslated(context, "Price")!,
                     color: customTextColor.withOpacity(.5)),
                 Spacer(),
-                customText("AED ${
+                customText("SAR ${
                     int.parse("120"/*ordersListData[index].total!)*/)-
                     int.parse("50"/*ordersListData[index].discount!*/)
                 }", color: HexColor("#40BFFF"),

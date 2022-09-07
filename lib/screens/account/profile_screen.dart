@@ -291,7 +291,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: customColor,
                     size: 40,
                   ),
-                ):customFloatingActionButton(context,
+                ):
+                customFloatingActionButton(context,
                     onPress: (){
                        /*if(image!=null){
                          MySharedPreferences().getUserId().then((value) {

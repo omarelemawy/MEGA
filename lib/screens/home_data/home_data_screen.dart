@@ -43,10 +43,9 @@ class _HomeDataScreenState extends State<HomeDataScreen> {
   final passwordFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
-    print(widget.lang+"lllll");
     return BlocProvider(
-      create: (context)=>HomeCubit()..getCat(widget.lang)..
-      getProduct(widget.lang)..getSettings(widget.lang)..getProOffer(widget.lang),
+      create: (context)=>HomeCubit()..getCat(widget.lang)/*..
+      getProduct(widget.lang)..getSettings(widget.lang)..getProOffer(widget.lang)*/,
       child: BlocConsumer<HomeCubit,HomeState>(
         listener: (context, state) {},
         builder: (context,state){
@@ -291,12 +290,12 @@ class _HomeDataScreenState extends State<HomeDataScreen> {
                         ],
                       ),
                        const SizedBox(height: 5,),
-                       /*categoryList.isEmpty?
+                       categoryList.isEmpty?
                        const Center(
                           child:  const SpinKitChasingDots(
                             color: customColor,
                             size: 40,
-                          )):*/
+                          )):
                        HomeCategooriesBody(widget.myContext
                           ,categoryList,widget.lang,
                            "01015449367"
@@ -360,7 +359,7 @@ class _HomeDataScreenState extends State<HomeDataScreen> {
                             children: [
                               customText(
                                   getTranslated(context,  "You May Like",)!
-                                  ,color: customColor,
+                                  ,color: HexColor("#50555C"),
                                   fontWeight: FontWeight.bold,size: 14),
                             ],
                           ),

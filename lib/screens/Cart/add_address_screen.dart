@@ -70,13 +70,16 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
         backgroundColor: Colors.white,
       ),
 
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton:
       /*state is GetLoadingCreateAddressState?
       const SpinKitChasingDots(
         color: customColor,
         size: 40,
       ):*/
-      customFloatingActionButton(context,onPress: (){
+      customFloatingActionButton(context,
+          color: HexColor("#BA6400")
+          ,onPress: (){
         if (_formKey.currentState!.validate()) {
     MySharedPreferences().getUserId().then((value) {
          /*AddressCubit.get(context).createAddress(
@@ -206,11 +209,16 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 ),*/
 
                 const SizedBox(height: 15),
+                customText(
+                    getTranslated(context,"Street Address",)!
+                    ,
+                    fontWeight: FontWeight.w600),
+                const SizedBox(height: 10),
                 TextFormField(
                   controller: addressEditingController,
                   decoration:  InputDecoration(
-                      labelText: getTranslated(context,"Street Address",)!
-                      ,
+                      /*labelText: getTranslated(context,"Street Address",)!
+                      ,*/
                       labelStyle:  const TextStyle(fontSize: 12),
                       contentPadding:  const EdgeInsets.all(10),
                       border:  const OutlineInputBorder()
@@ -225,12 +233,17 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 ),
 
                 const SizedBox(height: 15),
+                customText(
+                    getTranslated(context,"Postal Code",)!
+                    ,
+                    fontWeight: FontWeight.w600),
+                const SizedBox(height: 10),
                 TextFormField(
                   controller: postalCodeEditingController,
                   decoration:  InputDecoration(
                       labelStyle:  const TextStyle(fontSize: 12),
-                      labelText: getTranslated(context,"Postal Code",)!
-                      ,
+                      /*labelText: getTranslated(context,"Postal Code",)!
+                      ,*/
                       contentPadding: const EdgeInsets.all(10),
                       border:  const OutlineInputBorder()
                   ),
@@ -243,13 +256,17 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   },
                 ),
                 const SizedBox(height: 15),
+                customText(
+                    getTranslated(context,"Phone Number",)!
+                    ,
+                    fontWeight: FontWeight.w600),
                 TextFormField(
                   keyboardType: TextInputType.phone,
                   controller: phoneEditingController,
                   decoration:  InputDecoration(
                       labelStyle:  const TextStyle(fontSize: 12),
-                      labelText: getTranslated(context, "Phone Number",)!
-                      ,
+                      /*labelText: getTranslated(context, "Phone Number",)!
+                      ,*/
                       contentPadding: const EdgeInsets.all(10),
                       border:  const OutlineInputBorder()
                   ),
@@ -394,6 +411,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   onSaved: (value) {
                   },
                 ),
+
 
 
 
