@@ -9,7 +9,7 @@ import 'package:gnon/screens/account/order/order_bloc/order_cubit.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../../localization/localization_constants.dart';
-import '../../../models/order_list_model.dart';
+import '../../../models/order_data_model.dart';
 import 'order_details_screen.dart';
 
 class OrdersListScreen extends StatefulWidget {
@@ -23,13 +23,13 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OrderCubit()/*..getOrderL(widget.lang,)*/,
+      create: (context) => OrderCubit()..getToken(),
       child: BlocConsumer<OrderCubit, OrderState>(
         listener: (context, state) {
           // TODO: implement listener
         },
         builder: (context, state) {
-          /*var ordersListData = OrderCubit.get(context).ordersListData;*/
+          var ordersListData = OrderCubit.get(context).ordersListData;
           return Scaffold(
             appBar: AppBar(
               centerTitle: false,
@@ -44,50 +44,35 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                   , fontWeight: FontWeight.bold),
               backgroundColor: Colors.white,
             ),
-            body: /*state is GetLoadingOrderListOrderState?
+            body: state is GetLoadingOrderListOrderState?
             const Center(
                 child:   SpinKitChasingDots(
                   color: customColor,
                   size: 40,
                 )):
-            ordersListData.isEmpty?
-                Center(
-                  child: Text(
-                    getTranslated(context, "No Orders Yet")!,style:
-                  TextStyle(color: customColor,fontSize: 18),
-                  ),
-                ):*/
+          Container(
+            child: ordersListData!.isEmpty?
+            Center(
+              child: Text(
+                getTranslated(context, "No Orders Yet")!,style:
+              TextStyle(color: customColor,fontSize: 18,fontFamily: "Poppins"),
+              ),
+            ):
             ListView.builder(itemBuilder: (context, index) {
-              return shipItem(index/*,ordersListData*/);
-            }, itemCount: 5/*ordersListData.length*/,),
+              return shipItem(index,ordersListData);
+            }, itemCount: ordersListData.length,),
+          )
           );
         },
       ),
     );
   }
 
-  Widget shipItem(int index/*,List<OrderList> ordersListData*/) {
+  Widget shipItem(int index,List<OrderData> ordersListData) {
     String? getStatus(){
       String? status;
-      var rng = Random().nextInt(4);
-      switch(rng/*ordersListData[index].status*/){
-        case 0:
-          status =getTranslated(context, "Packing");
-          break;
-        case 1:
-          status =getTranslated(context, "Shipping");
-          break;
-        case 2:
-          status =getTranslated(context, "Arriving");
-          break;
-        case 3:
-          status =getTranslated(context, "success");
-          break;
-        case 4:
-          status =getTranslated(context, "cancel");
-          break;
 
-      }
+      status =ordersListData[index].status;
       return status;
 
     }
@@ -96,7 +81,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) =>
                 OrderDetailsScreen(
-                /*ordersListData[index]*/
+                ordersListData[index]
             )));
       },
       child: Container(
@@ -112,16 +97,16 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
           children: [
             customText(
                 "${getTranslated(context, "Order Number:")}  "
-                    " ${5/*ordersListData[index].id.toString()*/}",
+                    " ${ordersListData[index].number.toString()}",
                 fontWeight: FontWeight.bold),
             SizedBox(height: 10,),
 
-            customText("Order at E-comm ${
-                120
-                /*ordersListData[index].shippingDate*/
+             /* customText("Order at E-comm ${
+
+                ordersListData[index].shippingDate
             }",
                 color: HexColor("9098B1"),
-                size: 12),
+                size: 12),*/
             SizedBox(height: 10,),
             Row(
               children: List.generate(150 ~/ 1.5, (index) =>
@@ -152,7 +137,8 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                 customText(getTranslated(context, "Items")!
                     , color: customTextColor.withOpacity(.5)),
                 Spacer(),
-                customText("2"/*(ordersListData[index].itemsCount).toString()*/, color: customTextColor),
+                customText((ordersListData[index].lineItems!.length).toString()
+                    , color: customTextColor),
               ],
             ),
             SizedBox(height: 10,),
@@ -163,8 +149,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                     color: customTextColor.withOpacity(.5)),
                 Spacer(),
                 customText("SAR ${
-                    int.parse("120"/*ordersListData[index].total!)*/)-
-                    int.parse("50"/*ordersListData[index].discount!*/)
+                ordersListData[index].total!
                 }", color: HexColor("#40BFFF"),
                     fontWeight: FontWeight.bold),
               ],

@@ -25,155 +25,99 @@ class FavoriteListScreen extends StatefulWidget {
 }
 
 class _FavoriteListScreenState extends State<FavoriteListScreen> {
-  var ima="https://megamatgr.com/wp-content/uploads/2022/07/2cc434a0-e78c-4145-bb02-bb3910624bad-300x300.jpg";
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-  create: (context) => FavCubit()/*..getProdFav(widget.lang)*/,
-  child: BlocConsumer<FavCubit, FavState>(
-  listener: (context, state) {
-  },
-  builder: (context, state) {
-    /*var productList = FavCubit.get(context).productList;*/
-    ProductsModel pro=ProductsModel(
-        id: 1,
-        name: "omatejijs",
-        thumbnail: Thumbnail(
-            name: "namejksdi",
-            url: ima
-        ),
-        photos: [
-          Photo(
-              name: "jgsiojg",
-              url: ima
-          ),
-          Photo(
-              name: "jgsiojg",
-              url: ima
-          ),
-          Photo(
-              name: "jgsiojg",
-              url: ima
-          ),
-          Photo(
-              name: "jgsiojg",
-              url: ima
-          ),
-        ],
-        price: "1000",
-        offer: "223",
-        isLiked: "1"
-    );
-    List<ProductsModel> productListk=[
-      pro,
-      pro,
-      pro,
-      pro,
-      pro,
-    ];
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        title: customText(
-            getTranslated(context, "Favorite List",)!,
-            color: HexColor("#50555C"),fontWeight: FontWeight.bold,
-            max: 1,overflow: TextOverflow.ellipsis
-        ),
-        centerTitle: false,
-        /*leading: IconButton(onPressed: (){
-          Navigator.pushAndRemoveUntil(widget.myContext,
-              MaterialPageRoute(builder:
-                  (context)=>HomeScreen(
-                Localizations.localeOf(context).languageCode,0,
-                email: "",
-              )), (route) => false);
-          MySharedPreferences().getUserUserEmail().then((value) {
+      create: (context) => FavCubit()..getDataFromDatabaseFav(),
+      child: BlocConsumer<FavCubit, FavState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          var productList = FavCubit
+              .get(context)
+              .favProductList;
 
-          });
-        },
-            icon: Icon(Icons.arrow_back_ios,color: HexColor("#9098B1"),size: 15,)),*/
-      ),
-      body:
-      /*state is GetLoadingFavState?const
-      Center(
-        child:  SpinKitChasingDots(
-          color: customColor,
-          size: 40,
-        ),
-      ):
-      FavCubit.get(context).productList.isEmpty?
-          const Center(
-            child: Text(
-              "No Fav Data",
-              style: TextStyle(
-                color: customColor,
-                fontSize: 18,
-                fontWeight: FontWeight.bold
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 1,
+              title: customText(
+                  getTranslated(context, "Favorite List",)!,
+                  color: HexColor("#50555C"), fontWeight: FontWeight.bold,
+                  max: 1, overflow: TextOverflow.ellipsis
               ),
+              centerTitle: false,
+              leading: IconButton(onPressed: () {
+                Navigator.pushAndRemoveUntil(widget.myContext,
+                    MaterialPageRoute(builder:
+                        (context) =>
+                        HomeScreen(
+                           0,
+                          email: "",
+                        )), (route) => false);
+                MySharedPreferences().getUserUserEmail().then((value) {
+
+                });
+              },
+                  icon: Icon(Icons.arrow_back_ios, color: HexColor("#9098B1"),
+                    size: 15,)),
             ),
-          ):*/
-        categoresGridView(productListk, context),
+            body:
+            FavCubit
+                .get(context)
+                .favProductList==null ? const
+            Center(
+              child: SpinKitChasingDots(
+                color: customColor,
+                size: 40,
+              ),
+            ) :
+            FavCubit
+                .get(context)
+                .favProductList!
+                .isEmpty ?
+             Center(
+              child: Column(
+
+                children: [
+                  SizedBox(height: MediaQuery.of(context).size.height/4,),
+                  Image.asset("lib/images/favorite.png"),
+                  SizedBox(height: 40,),
+                  Text("سله المفضله فارغه",style:
+                  TextStyle(color:
+                  customColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),),
+                ],
+              ),
+            ) :
+            categoresGridView(productList!, context),
+          );
+        },
+      ),
     );
-  },
-),
-);
   }
+
   categoresGridView(List<ProductsModel> list, BuildContext context) {
-    ProductsModel pro=ProductsModel(
-        id: 1,
-        name: "omatejijs",
-        thumbnail: Thumbnail(
-            name: "namejksdi",
-            url: ima
-        ),
-        photos: [
-          Photo(
-              name: "jgsiojg",
-              url: ima
-          ),
-          Photo(
-              name: "jgsiojg",
-              url: ima
-          ),
-          Photo(
-              name: "jgsiojg",
-              url: ima
-          ),
-          Photo(
-              name: "jgsiojg",
-              url: ima
-          ),
-        ],
-        price: "1000",
-        offer: "223",
-        isLiked: "1"
-    );
-    List<ProductsModel> productListk=[
-      pro,
-      pro,
-      pro,
-      pro,
-      pro,
-    ];
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GridView.builder(
-        itemCount: productListk.length,
+        itemCount: list.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
             crossAxisCount: 2,
-            mainAxisExtent:MediaQuery.of(context).size.height/4
+            mainAxisExtent: MediaQuery
+                .of(context)
+                .size
+                .height / 3.3
         ),
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
-            onTap: () {
-            },
-            child: CardFavorite(widget.myContext,list: productListk,index: index,),
+            onTap: () {},
+            child: CardFavorite(widget.myContext, list: list, index: index,),
           );
         },
       ),
@@ -213,20 +157,15 @@ class _CardFavoriteState extends State<CardFavorite> {
                 child: customCachedNetworkImage(
                   boxFit: BoxFit.cover,
                   context: context,
-                  url: widget.list![widget.index!].photos![0].url,
+                  url:widget.list![widget.index!].images![0].src,
                 ),
               ),
               Align(
                 alignment: Alignment.topLeft,
                 child: IconButton(onPressed: (){
-                  MySharedPreferences().getUserId().then((value) {
-                    FavCubit.get(context).makeDisLikeProduct(
-                        widget.list![widget.index!].id!,
-                        value,
-                        Localizations.localeOf(context).languageCode
+                   FavCubit.get(context).deleteDateCard(id:
+                   widget.list![widget.index!].id.toString(),
                     );
-                  });
-
                     print("isLiked");
                 }, icon:
                 const DecoratedIcon(
@@ -262,14 +201,15 @@ class _CardFavoriteState extends State<CardFavorite> {
               ),
             ),
           ),
+          SizedBox(height: 10,),
           SizedBox(
             width: 90,
-            child: widget.list![widget.index!].price == null ?
+            child: widget.list![widget.index!].regularPrice == null ?
             Container() :
             Text(
-              widget.list![widget.index!].offer == null ?
-              widget.list![widget.index!].price! :
-              widget.list![widget.index!].offer!,
+              !widget.list![widget.index!].onSale! ?
+              "${widget.list![widget.index!].regularPrice!} SAR" :
+              "${widget.list![widget.index!].salePrice!} SAR",
               maxLines: 1,
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
@@ -280,13 +220,13 @@ class _CardFavoriteState extends State<CardFavorite> {
             ),
           ),
           const SizedBox(height: 5,),
-          widget.list![widget.index!].offer == null ?
+          !widget.list![widget.index!].onSale!?
           Container() :
           Row(
             children: [
               SizedBox(
                 child: Text(
-                  widget.list![widget.index!].price!,
+                  "${widget.list![widget.index!].regularPrice!} SAR",
                   maxLines: 1,
                   style: TextStyle(
                       fontWeight: FontWeight.w200,
@@ -300,8 +240,8 @@ class _CardFavoriteState extends State<CardFavorite> {
               const SizedBox(width: 8,),
               SizedBox(
                 child: Text(
-                  "${getOffer(widget.list![widget.index!].offer!,
-                      widget.list![widget.index!].price!)} % Off"
+                  "${getOffer(widget.list![widget.index!].salePrice!,
+                      widget.list![widget.index!].regularPrice!)} % Off"
                   ,
                   maxLines: 1,
                   style: TextStyle(
@@ -318,9 +258,9 @@ class _CardFavoriteState extends State<CardFavorite> {
       ),
     );
   }
-  double getOffer(String offer, String price) {
-    return ((int.parse(price) - int.parse(offer)) /
-        int.parse(price)) * 100;
+  String getOffer(String offer, String price) {
+    return (((int.parse(price) - int.parse(offer)) /
+        int.parse(price)) * 100).toStringAsFixed(1);
   }
 }
 

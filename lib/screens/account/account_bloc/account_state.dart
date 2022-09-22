@@ -35,3 +35,18 @@ class DeleteProfileErrorAccountState extends AccountState {
   DeleteProfileErrorAccountState(this.error);
   String error;
 }
+
+
+class GetReplacementPolicyLoadingAccountState extends AccountState {}
+class GetReplacementPolicySuccessAccountState extends AccountState {}
+class GetReplacementPolicyErrorAccountState extends AccountState {
+  GetReplacementPolicyErrorAccountState(this.error);
+  String error;
+}
+
+class GetLoadingSettingsDataAccountState extends AccountState {}
+class GetSuccessSettingsDataAccountState extends AccountState {}
+class GetErrorSettingsDataAccountState extends AccountState {
+  GetErrorSettingsDataAccountState(this.error);
+  String error;
+}

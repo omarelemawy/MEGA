@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gnon/constants/color_constans.dart';
 import 'package:gnon/constants/themes.dart';
-import 'package:gnon/models/order_data_model.dart';
 import 'package:gnon/screens/Cart/address_bloc/address_bloc.dart';
 import 'package:gnon/screens/Cart/ship_to_screen.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -16,10 +15,12 @@ import '../../localization/localization_constants.dart';
 import '../../models/cart_data_model.dart';
 import '../../sharedPreferences.dart';
 import '../auth/login/login_screen.dart';
+import '../home/home_screen.dart';
+import 'checkout_screen.dart';
 
 class CartScreen extends StatefulWidget {
-   CartScreen(this.mycontext,this.lang,this.phone,{Key? key}) : super(key: key);
-  String? lang;
+   CartScreen(this.mycontext,this.phone,{Key? key}) : super(key: key);
+
   var mycontext;
    String phone;
   @override
@@ -27,182 +28,203 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  TextEditingController couponTextEditingController=TextEditingController();
+  TextEditingController couponTextEditingController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-  create: (context) => AddressCubit()/*..getCartData(widget.lang)*/,
-  child: BlocConsumer<AddressCubit, AddressState>(
-  listener: (context, state) {
-    // TODO: implement listener
-  },
-   builder: (context, state) {
-    var cartDataModel = AddressCubit.get(context).cartDataModel;
-    var cartModel = AddressCubit.get(context).cartModel;
-    return
-      /*AddressCubit.get(context).isLogin==true?*/
-      Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        title: customText(
-
-            getTranslated(context, "Your Cart",)!
-            ,
-            color: customTextColor, fontWeight: FontWeight.bold),
-        centerTitle: false,
-      ),
-
-      body: /*state is GetLoadingCartDateState?
-          cartDataModel!.isEmpty?
-          const Center(
-            child:  SpinKitChasingDots(
-              color: customColor,
-              size: 40,
+      create: (context) =>
+      AddressCubit()
+        ..getCartData(),
+      child: BlocConsumer<AddressCubit, AddressState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          var cartDataModel = AddressCubit
+              .get(context)
+              .cartDataModel;
+          return  WillPopScope(child:  AddressCubit
+              .get(context)
+              .isLogin == true ?
+          Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 1,
+              title: customText(
+                "سله التسوق"
+                  /*getTranslated(context, "Your Cart",)!*/
+                  ,
+                  color: customTextColor, fontWeight: FontWeight.bold),
+              centerTitle: false,
             ),
-          ):
-
-      const Center(
-        child:  SpinKitChasingDots(
-          color: customColor,
-          size: 40,
-        ),
-      ):*/
-      Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: /*AddressCubit.get(context).cartModel==null?
-        const Center(
-          child:  SpinKitChasingDots(
-            color: customColor,
-            size: 40,
-          ),
-        ):*/
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              ListView.builder(
-                itemBuilder: (context, index) =>  Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: CartItem(/*cartDataModel!,index*/index),
+            body: state is GetLoadingCartDateState ?
+            cartDataModel!.isEmpty ?
+            const Center(
+              child: SpinKitChasingDots(
+                color: customColor,
+                size: 40,
+              ),
+            ) :
+            const Center(
+              child: SpinKitChasingDots(
+                color: customColor,
+                size: 40,
+              ),
+            ) :
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: AddressCubit
+                  .get(context)
+                  .cartModel == null ?
+              const Center(
+                child: SpinKitChasingDots(
+                  color: customColor,
+                  size: 40,
                 ),
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: 3,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              /*AddressCubit.get(context).cartDataModel!.isEmpty?
-                  Container():*/
-              SizedBox(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width / 1.2,
-                child: Form(
-                  key: _formKey,
-                  child: TextFormField(
-                    validator: (val) =>val!.isEmpty?
-                    getTranslated(context, "please Enter Cupon",)!
-                        : null,
-                    controller: couponTextEditingController,
-                    decoration: InputDecoration(
-                        labelText: getTranslated(context, "Enter Cupon Code",)!,
-                        contentPadding: const EdgeInsets.all(10),
-                        suffixIcon: Container(
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(10),
-                                  bottomRight: Radius.circular(10)
-                              )
-                          ),
-                          child: /*state is GetLoadingCouponCartDateState?
-                          const Center(
-                            child:  SpinKitChasingDots(
-                              color: customColor,
-                              size: 40,
-                            ),
-                          ):*/
-                          MaterialButton(onPressed: () {
-                            /*if (_formKey.currentState!.validate()) {
-                              MySharedPreferences().getUserId().then((value) {
-                                AddressCubit.get(context).
-                                checkCupounItemCart(
-                                    Localizations
-                                        .localeOf(context)
-                                        .languageCode,
-                                    value,
-                                    AddressCubit
-                                        .get(context)
-                                        .cartModel!
-                                        .data!
-                                        .id,
-                                    couponTextEditingController.text
-                                );
-                              });
-                            }*/
-                          },
-                            minWidth: 100,
-                            color: HexColor("#BA6400"),
-                            child:  Text(
-                              getTranslated(context, "Apply",)!
-                              , style: const TextStyle(color:
-                            Colors.white),
-                            ),),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        )
+              ) :
+              SingleChildScrollView(
+                child:  AddressCubit
+                    .get(context)
+                    .cartDataModel!
+                    .isEmpty ?
+                Container(
+                  child: Center(
+                    child: Column(
+
+                      children: [
+                        SizedBox(height: MediaQuery.of(context).size.height/4,),
+                        Image.asset("lib/images/cart_empty.png"),
+                        SizedBox(height: 40,),
+                        Text("سله التسوق فارغه",style:
+                        TextStyle(color:
+                        customColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),),
+                      ],
                     ),
                   ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              /*AddressCubit.get(context).cartDataModel!.isEmpty?
-              Container(
-                height: 400,
-                child: Center(
+                ) :
+                Column(
+                  children: [
+                    ListView.builder(
+                      itemBuilder: (context, index) =>
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: CartItem(cartDataModel, index),
+                          ),
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: cartDataModel!.length,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    /*AddressCubit.get(context).cartDataModel!.isEmpty?
+                  Container():*/
+                    SizedBox(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width / 1.2,
+                      child: Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          validator: (val) =>
+                          val!.isEmpty ?
+                          getTranslated(context, "please Enter Cupon",)!
+                              : null,
+                          controller: couponTextEditingController,
+                          decoration: InputDecoration(
+                              labelText: getTranslated(
+                                context, "Enter Cupon Code",)!,
+                              contentPadding: const EdgeInsets.all(10),
+                              suffixIcon: Container(
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10)
+                                    )
+                                ),
+                                child: state is GetLoadingCouponCartDateState?
+                                const Center(
+                                  child:  SpinKitChasingDots(
+                                    color: customColor,
+                                    size: 40,
+                                  ),
+                                ): MaterialButton(onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    MySharedPreferences.getUserGetToken().then((value) {
+                                      AddressCubit.get(context).
+                                      checkCupounItemCart(
+                                          value,
+                                          couponTextEditingController.text
+                                      );
+                                    });
+                                    couponTextEditingController.clear();
+                                  }
+                                },
+                                  minWidth: 100,
+                                  color: HexColor("#44c718"),
+                                  child: Text(
+                                    getTranslated(context, "Apply",)!
+                                    , style: const TextStyle(color:
+                                  Colors.white),
+                                  ),),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              )
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    /*AddressCubit.get(context).cartDataModel!.isEmpty?
+                 Container(
+                  height: 400,
+                 child: Center(
                   child: Text(getTranslated(context, "No Orders")!,
-                  style: TextStyle(
+                    style: TextStyle(
                     color: customColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 18
                   ),),
                 ),
               ):*/
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  border: Border.all(color: HexColor("#EBF0FF"))
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          customText(
-                              getTranslated(context, "Items",)!
-                              ,color: HexColor("#9098B1"),
-                              size: 12),
-                          customText("12"
-                          /*AddressCubit.get(context).cartModel!.data!.itemsCount.toString()*/
-                         ,color: HexColor("#9098B1"),
-                          size: 12),
-                          const Spacer(),
-                          customText(
-                              "AED ${120/*AddressCubit.get(context).cartModel!.data!.total!*/}"
-                          ,color: customTextColor,
-                              size: 12),
-                        ],
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(2),
+                          border: Border.all(color: HexColor("#EBF0FF"))
                       ),
-                    ),
-                    /*Padding(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                customText(
+                                    getTranslated(context, "Items",)!
+                                    , color: HexColor("#9098B1"),
+                                    size: 12),
+                                customText(
+                                    AddressCubit.get(context).cartModel!.itemsCount.toString()
+                                    , color: HexColor("#9098B1"),
+                                    size: 12),
+                                const Spacer(),
+                                customText(
+                                    "ر.س ${ AddressCubit.get(context).cartModel!.totals!.totalPrice}"
+                                    , color: customTextColor,
+                                    size: 12),
+                              ],
+                            ),
+                          ),
+                          /*Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
@@ -215,185 +237,196 @@ class _CartScreenState extends State<CartScreen> {
                         ],
                       ),
                     ),*/
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          customText(
-                              getTranslated(context, "Discount",)!
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                customText(
+                                    getTranslated(context, "Discount",)!
 
-                              ,color: HexColor("#9098B1"),
-                              size: 12),
-                          const Spacer(),
-                          customText(
-                              "AED ${120/*AddressCubit.get(context).cartModel!.data!.discount!*/}"
-                          ,color: customTextColor,
-                              size: 12),
+                                    , color: HexColor("#9098B1"),
+                                    size: 12),
+                                const Spacer(),
+                                customText(
+                                    "ر.س ${ AddressCubit.get(context).
+                                    cartModel!.totals!.totalDiscount}"
+                                    , color: customTextColor,
+                                    size: 12),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: List.generate(150 ~/ 1.5, (index) =>
+                                Expanded(
+                                  child: Container(
+                                    color: index % 2 == 0 ? Colors.transparent
+                                        : HexColor("#EBF0FF"),
+                                    height: 3,
+                                  ),
+                                )),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                customText(
+                                    getTranslated(context, "Total Price",)!
+                                    , color: customTextColor,
+                                    size: 12),
+                                const Spacer(),
+                                customText(
+                                    "ر.س ${
+                                        AddressCubit.get(context).cartModel!.totals!.totalPrice!
+                                    }"
+                                    , color: HexColor("#40BFFF"),
+                                    size: 12),
+                              ],
+                            ),
+                          ),
+
                         ],
                       ),
                     ),
                     const SizedBox(
-                      height: 5,
+                      height: 80,
                     ),
-                    Row(
-                      children: List.generate(150~/1.5, (index) => Expanded(
-                        child: Container(
-                          color: index%2==0?Colors.transparent
-                              :HexColor("#EBF0FF"),
-                          height: 3,
-                        ),
-                      )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          customText(
-                              getTranslated(context,  "Total Price",)!
-                             ,color:customTextColor,
-                              size: 12),
-                          const Spacer(),
-                          customText(
-                              "AED ${
-                                 int.parse("120"/*AddressCubit.get(context).cartModel!.data!.total!*/)-
-                                      int.parse(/*AddressCubit.
-                                            get(context).cartModel!.data!.discount!*/"120")
-                              }"
-                              ,color: HexColor("#40BFFF"),
-                              size: 12),
-                        ],
-                      ),
-                    ),
-
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 80,
-              ),
-            ],
-          ),
-        ),
-      ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      /*bottomNavigationBar: connectWithUsWhatsApp(context,widget.phone),*/
-      floatingActionButton: /*AddressCubit.get(context).cartDataModel!.isEmpty?
-      Container():*/
-      customFloatingActionButton(
-          context,
-          text:getTranslated(context,  "Check Out",)!,
-          color: HexColor("#BA6400")
-          , onPress: () {
-            MySharedPreferences().getUserId().then((value) {
-              print(value);
-            });
-            pushNewScreen(
-              context,
-              screen: ShipToScreen(
-                  Localizations.localeOf(context).languageCode,
-                  withFloatingActionButton:true,
-                  /*orderData:
-                OrderData(
-                  orderId: cartModel!.data!.id.toString(),
-                  orderAmount: "${
-                int.parse( AddressCubit.get(context).cartModel!.data!.total!)-
-                int.parse(AddressCubit.
-                get(context).cartModel!.data!.discount!)}",
-                  orderDescription: cartModel.message,
-                  currencyCode: "AED",
-                ),*/
-              ),
-              withNavBar: false, // OPTIONAL VALUE. True by default.
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
-          }),
-    )
-    /*:
-      Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 1,
-          title: customText(
+            ),
+            floatingActionButtonLocation: FloatingActionButtonLocation
+                .centerFloat,
+            /*bottomNavigationBar: connectWithUsWhatsApp(context,widget.phone),*/
+            floatingActionButton: AddressCubit
+                .get(context)
+                .cartDataModel!
+                .isEmpty ?
+            Container() :
+            customFloatingActionButton(
+                context,
+                text: getTranslated(context, "Check Out",)!,
+                color: HexColor("#44c718")
+                , onPress: () {
+              MySharedPreferences().getUserId().then((value) {
+                print(value);
+              });
+              pushNewScreen(
+                context,
+                screen: CheckOutScreen(),
+                withNavBar: false, // OPTIONAL VALUE. True by default.
+                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+              );
+            }),
+          ) :
 
-              getTranslated(context, "Your Cart",)!
-              ,
-              color: customTextColor, fontWeight: FontWeight.bold),
-          centerTitle: false,
-        ),
-        body:  Container(
-          padding: const EdgeInsets.all(30),
-          height: double.infinity,
-          color: Colors.white,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+          Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                elevation: 1,
+                title: customText(
 
-                const SizedBox(
-                  height: 10,
-                ),
-                customText(
-                    getTranslated(context,  "You Want To Login",)!
+                    getTranslated(context, "Your Cart",)!
                     ,
-                    color: customTextColor,
-                    fontWeight: FontWeight.bold,
-                    size: 16),
-                const SizedBox(
-                  height: 60,
-                ),
-                Material(
-                  elevation: 5,
-                  child: Container(
-                    width:
-                    MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: HexColor("#087DA9"),
-                        border: Border.all(
-                            color: customTextColor
-                                .withOpacity(.2)),
-                        borderRadius:
-                        BorderRadius.circular(4)),
-                    child: MaterialButton(
-                      onPressed: () {
-                        Navigator.pushAndRemoveUntil(widget.mycontext,
-                            MaterialPageRoute(builder: (context)=>LoginScreen()),
-                                (route) => false);
-                      },
-                      child: customText(
-                          getTranslated(context,  "Sign In",)!
+                    color: customTextColor, fontWeight: FontWeight.bold),
+                centerTitle: false,
+              ),
+              body: Container(
+                padding: const EdgeInsets.all(30),
+                height: double.infinity,
+                color: Colors.white,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      customText(
+                          getTranslated(context, "You Want To Login",)!
                           ,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
+                          color: customTextColor,
+                          fontWeight: FontWeight.bold,
+                          size: 16),
+                      const SizedBox(
+                        height: 60,
+                      ),
+                      Material(
+                        elevation: 5,
+                        child: Container(
+                          width:
+                          MediaQuery
+                              .of(context)
+                              .size
+                              .width,
+                          decoration: BoxDecoration(
+                              color: HexColor("#087DA9"),
+                              border: Border.all(
+                                  color: customTextColor
+                                      .withOpacity(.2)),
+                              borderRadius:
+                              BorderRadius.circular(4)),
+                          child: MaterialButton(
+                            onPressed: () {
+                              print("object");
+                              Navigator.pushAndRemoveUntil(widget.mycontext,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()),
+                                      (route) => false);
+                            },
+                            child: customText(
+                                getTranslated(context, "Sign In",)!
+                                ,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
+              )
           ),
-        )
-      )*/;
-     },
-     ),
-   );
+             onWillPop: () async {
+            MySharedPreferences().getUserUserEmail().then((value) {
+              Navigator.pushAndRemoveUntil(context,
+                  MaterialPageRoute(builder:
+                      (context) =>
+                      HomeScreen(
+                         0,
+                        email: value,
+                      )), (route) => false);
+            });
+            return true;
+          });
+        },
+      ),
+    );
   }
 }
 
-class CartItem extends StatefulWidget {
-  CartItem(this.index,{Key? key}) : super(key: key);
 
+class CartItem extends StatefulWidget {
+  CartItem(this.cartDataModel,this.index,{Key? key}) : super(key: key);
+  List<ItemsOfCart>? cartDataModel;
   int index;
   @override
   _CartItemState createState() => _CartItemState();
 }
 
 class _CartItemState extends State<CartItem> {
-  var _itemCount=3;
+  var _itemCount=1;
+
   @override
   Widget build(BuildContext context) {
+    print(widget.cartDataModel!.length);
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -409,7 +442,7 @@ class _CartItemState extends State<CartItem> {
               width: 80,
               child: customCachedNetworkImage(
                 boxFit: BoxFit.fill,
-                url:"https://media.istockphoto.com/photos/motion-blur-the-truck-is-driving-at-high-speed-on-the-highway-red-sky-picture-id1303345112?b=1&k=20&m=1303345112&s=170667a&w=0&h=RspaiuFmfnaUlzHEw90lSONUGzxAcbeC9Dj_p8z_r6w=",
+                url: widget.cartDataModel![widget.index].images![0].src,
                 context: context,
               ),
             ),
@@ -427,8 +460,8 @@ class _CartItemState extends State<CartItem> {
                   children: [
                     Expanded(
                       flex: 6,
-                      child:  ExpandableText(
-                        "fifoyy8ofyoyoy",
+                      child: ExpandableText(
+                        widget.cartDataModel![widget.index].name!,
                         expandText: 'show more',
                         collapseText: 'show less',
                         expandOnTextTap: true,
@@ -449,10 +482,10 @@ class _CartItemState extends State<CartItem> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         circleColor:
-                        const CircleColor(start:  Color(0xff00ddff),
+                        const CircleColor(start: Color(0xff00ddff),
                             end: Color(0xff0099cc)),
                         bubblesColor: const BubblesColor(
-                          dotPrimaryColor:  Color(0xff33b5e5),
+                          dotPrimaryColor: Color(0xff33b5e5),
                           dotSecondaryColor: Color(0xff0099cc),
                         ),
                         likeBuilder: (bool isLiked) {
@@ -468,11 +501,20 @@ class _CartItemState extends State<CartItem> {
                     ),
                     const SizedBox(width: 15,),
                     Expanded(
-                        flex:1,
+                        flex: 1,
                         child: IconButton(
                           onPressed: () {
                             setState(() {
-
+                              MySharedPreferences.getUserGetToken().then((value) {
+                                print(value);
+                                AddressCubit.get(context).deleteItemCart(
+                                    Localizations
+                                        .localeOf(context)
+                                        .languageCode,
+                                    value,
+                                    widget.cartDataModel![widget.index].key
+                                );
+                              });
                             });
                           },
                           icon: Icon(
@@ -482,16 +524,21 @@ class _CartItemState extends State<CartItem> {
                         )),
                   ],
                 ),
-               /* Text(widget.index==0?
+
+                /* Text(widget.index==0?
                 getTranslated(context, "Hard Copy")!:
                 getTranslated(context, "PDF")!
                   ,),*/
                 const SizedBox(height: 20,),
+                widget.cartDataModel![widget.index].prices!.salePrice == null ?
+                Container() :
                 Row(
                   children: [
+                    const SizedBox(width: 10,),
                     SizedBox(
                       child: Text(
-                        "${100} UED",
+                        "${widget.cartDataModel![widget.index].prices!
+                            .regularPrice!} SAR",
                         maxLines: 1,
                         style: TextStyle(
                             fontWeight: FontWeight.w200,
@@ -502,11 +549,13 @@ class _CartItemState extends State<CartItem> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8,),
+                    const SizedBox(width: 10,),
                     SizedBox(
                       child: Text(
-                        "${10} %"
-                        ,
+                        "${getOffer(widget.cartDataModel![widget.index].prices!
+                            .salePrice!,
+                            widget.cartDataModel![widget.index].prices!
+                                .regularPrice!)} % Off",
                         maxLines: 1,
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
@@ -516,22 +565,29 @@ class _CartItemState extends State<CartItem> {
                         ),
                       ),
                     ),
+                    const SizedBox(width: 020,),
                   ],
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
+                SizedBox(height: 10,),
                 Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(width: 10,),
+                    widget.cartDataModel![widget.index].prices!.regularPrice ==
+                        null ?
+                    Container() : SizedBox(
                       width: 90,
-                      child:
-                      Text("UED ${10}",
+                      child: Text(
+                        widget.cartDataModel![widget.index].prices!.salePrice ==
+                            null ?
+                        "${widget.cartDataModel![widget.index].prices!
+                            .regularPrice!} SAR" :
+                        "${widget.cartDataModel![widget.index].prices!
+                            .salePrice} SAR",
                         maxLines: 1,
-                        style:  TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: HexColor("#40BFFF"),
-                            fontSize: 12,
+                            color: Colors.black,
+                            fontSize: 13,
                             overflow: TextOverflow.ellipsis
                         ),
                       ),
@@ -545,23 +601,80 @@ class _CartItemState extends State<CartItem> {
                       ),
                       child: Row(
                         children: <Widget>[
-                          InkWell(child: Icon(Icons.remove,),
-                            onTap: ()=>_itemCount !=0?setState(()=>_itemCount--):(){},),
+                          InkWell(child: const Icon(Icons.remove),
+                            onTap: () =>
+                            widget.cartDataModel![widget.index].quantity
+                                == 1 ? setState(() {
+                              print("sdgdsgsdgeds");
+
+                              MySharedPreferences.getUserGetToken().then((value) {
+                                AddressCubit.get(context).deleteItemCart(
+                                    Localizations
+                                        .localeOf(context)
+                                        .languageCode,
+                                    value,
+                                    widget.cartDataModel![widget.index].key
+                                );
+                              });
+                            }) :
+                            setState(() {
+                              _itemCount =
+                                  widget.cartDataModel![widget.index]
+                                      .quantity! - 1;
+                              MySharedPreferences.getUserGetToken().then((value) {
+                                AddressCubit.get(context).addQuantityItem(
+                                    Localizations
+                                        .localeOf(context)
+                                        .languageCode,
+                                    value,
+                                    widget.cartDataModel![widget.index].key,
+                                    _itemCount
+                                );
+                              });
+                            }),),
+                          /*IconButton(icon:  Icon(Icons.remove),
+                            onPressed: ()=>_itemCount !=0?setState(()=>_itemCount--):(){},),*/
                           const SizedBox(width: 5,),
                           Container(
-                              padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 15),
+                              padding: const EdgeInsets.symmetric(vertical: 5,
+                                  horizontal: 15),
                               decoration: BoxDecoration(
                                 color: HexColor("#EBF0FF"),
                               ),
-                              child: Text(_itemCount.toString())),
+                              child: Text(widget.
+                              cartDataModel![widget.index].
+                              quantity.toString())),
                           const SizedBox(width: 5,),
-                          InkWell(child: Icon(Icons.add,),
-                            onTap: ()=>_itemCount !=0?setState(()=>_itemCount++):(){},),
+                          InkWell(
+                              child: const Icon(Icons.add, size: 20,),
+                              onTap: () =>
+                                  setState(() {
+                                    print("$_itemCount  kbpodsbjdsopbijsbgopisdbgjio");
+                                    _itemCount =
+                                        widget.cartDataModel![widget.index]
+                                            .quantity! + 1;
+                                    print("$_itemCount  bibhjuhusgaudguagdua");
+                                    MySharedPreferences.getUserGetToken().
+                                    then((value) {
+                                      AddressCubit.get(context)
+                                          .addQuantityItem(
+                                          Localizations
+                                              .localeOf(context)
+                                              .languageCode,
+                                          value,
+                                          widget.cartDataModel![widget.index]
+                                              .key,
+                                          _itemCount
+                                      );
+                                    });
+                                  })),
                         ],
                       ),
                     ),
+
                   ],
-                )
+                ),
+
               ],
             ),
           )
@@ -570,8 +683,8 @@ class _CartItemState extends State<CartItem> {
     );
   }
 
-  double getOffer(String offer, String price) {
-    return ((int.parse(price) - int.parse(offer)) /
-        int.parse(price)) * 100;
+  String getOffer(String offer, String price) {
+    return (((int.parse(price) - int.parse(offer)) /
+        int.parse(price)) * 100).toStringAsFixed(1);
   }
 }

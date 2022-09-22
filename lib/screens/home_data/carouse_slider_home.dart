@@ -2,6 +2,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gnon/screens/home/home_screen.dart';
+import 'package:gnon/screens/home_data/category/category_screen.dart';
+import 'package:gnon/screens/home_data/item_details_screen.dart';
+import 'package:gnon/sharedPreferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/color_constans.dart';
@@ -9,13 +13,14 @@ import '../../constants/widget.dart';
 import '../../models/setting_model.dart';
 
 class MyHomeCarouseSlider extends StatefulWidget {
-   MyHomeCarouseSlider({Key? key,this.items,
+   MyHomeCarouseSlider(this.myContext,{Key? key,this.items,
      this.height=300,
      this.margin=10.0,
      this.autoPlay=true}) : super(key: key);
    double? index=0;
    double? height;
    double? margin;
+   var myContext;
    List<MySlider>? items;
    bool? autoPlay;
   @override
@@ -48,14 +53,37 @@ class _MyHomeCarouseSliderState extends State<MyHomeCarouseSlider> {
                 .map(
                   (items) => GestureDetector(
                 onTap: () {
-                  _launchUrl(items.link);
-                  /*Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => CategoriesCoursesPageView(
-                        courses: items,
-                      ),
-                    ),
-                  );*/
+                  if(items.type=="section"){
+                    Navigator.pushAndRemoveUntil(widget.myContext, MaterialPageRoute(builder:
+                        (context)=>
+                            CategoryScreen
+                              (widget.myContext, int.parse(items.details!),
+                                "", "011202")
+                    ), (route) => false);
+                  }
+                  else if(items.type=="link") {
+                    _launchUrl(items.details);
+                  }
+                  else if(items.type=="product") {
+                    Navigator.pushAndRemoveUntil(widget.myContext, MaterialPageRoute(builder:
+                        (context)=>
+                        ItemDetailsScreen(widget.myContext,
+                            int.parse(items.details!),
+                            Localizations.localeOf(context).languageCode)
+
+                    ), (route) => false);
+                  }
+                  else if(items.type=="offers") {
+                    MySharedPreferences().getUserUserEmail().then((value){
+                      Navigator.pushAndRemoveUntil(widget.myContext, MaterialPageRoute(builder:
+                          (context)=>
+                          HomeScreen(1,email:value,)
+
+                      ), (route) => false);
+                    });
+
+                  }
+
                 },
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: widget.margin!),
@@ -77,7 +105,7 @@ class _MyHomeCarouseSliderState extends State<MyHomeCarouseSlider> {
                                 ),
                                 child: customCachedNetworkImage(
                                   context: context,
-                                  boxFit: BoxFit.cover,
+                                  boxFit: BoxFit.fill,
                                   url: items.image,
                                 ),
                               ),

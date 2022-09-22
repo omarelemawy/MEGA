@@ -2,6 +2,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class MySharedPreferences {
   static String sharedPrefUserSinginKey = 'IsSingIn';
+
+  static String sharedGetToken = 'token';
+
+
   static String sharedPrefUserSkipLogIn = 'SkipLogIn';
   static String sharedPrefUserCountryCode = 'UserCountryCode';
   static String sharedPrefUserLong = 'Long';
@@ -9,7 +13,11 @@ class MySharedPreferences {
   static String sharedPrefAppLang = 'AppLan';
   static String sharedPrefApiLang = 'ApiLang';
   static String sharedPrefUserPre = 'pref';
+
   static String sharedPrefUserName = 'UserName';
+
+  static String sharedPrefName = 'Name';
+
   static String sharedPrefUserUserEmail = 'UserEmail';
   static String sharedPrefUserUserAge = 'UserAge';
   /*static String sharedPrefUserUserGender = 'UserGender';*/
@@ -29,9 +37,20 @@ class MySharedPreferences {
   static String sharedPrefUserGender = 'UserGender';
   static String sharedPrefCoursesFillterType = 'FillterType';
   //save data
+
   static Future<bool> saveUserSingIn(bool isSingin) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return await preferences.setBool(sharedPrefUserSinginKey, isSingin);
+  }
+
+
+
+
+
+
+  static Future<bool> saveSharedGetToken(String token) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return await preferences.setString(sharedGetToken, token);
   }
 
   static Future<bool> saveUserSkipLogIn(bool isSkipLogIn) async {
@@ -58,6 +77,10 @@ class MySharedPreferences {
   static Future<bool> saveUserUserName(String userName) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return await preferences.setString(sharedPrefUserName, userName);
+  }
+  static Future<bool> saveName(String name) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return await preferences.setString(sharedPrefName, name);
   }
 
   static Future<bool> saveFilltterIndex(int index) async {
@@ -147,6 +170,21 @@ class MySharedPreferences {
     return await preferences.setString(sharedPrefUserImageUrl, userImageUrl);
   }
 
+
+
+
+
+
+
+
+
+  static getUserGetToken() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? getToken = preferences.getString(sharedGetToken);
+    return getToken;
+  }
+
+
   // getdata
   static getUserSingIn() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -170,6 +208,12 @@ class MySharedPreferences {
   static Future<String?> getUserUserName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? name = preferences.getString(sharedPrefUserName.toString());
+    return name;
+  }
+
+  static Future<String?> getName() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? name = preferences.getString(sharedPrefName.toString());
     return name;
   }
 

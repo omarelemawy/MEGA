@@ -73,7 +73,8 @@ customCachedNetworkImage({String? url, BuildContext? context, BoxFit? boxFit}) {
   }
 }
 
-Widget customFloatingActionButton(context,{Function()? onPress,String? text,Color color=customColor})
+Widget customFloatingActionButton(context,{Function()? onPress,
+  String? text,Color color=customColor})
 {
   return FloatingActionButton.extended(
       backgroundColor: color,

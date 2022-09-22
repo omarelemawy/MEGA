@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hexcolor/hexcolor.dart';
-
 import '../../../constants/MediaButton.dart';
 import '../../../constants/color_constans.dart';
 import '../../../constants/themes.dart';

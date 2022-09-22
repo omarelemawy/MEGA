@@ -27,10 +27,9 @@ class _CardCategoryState extends State<CardCategory> {
 
         Navigator.push(widget.myContext,
             MaterialPageRoute(builder:
-                (context)=>CategoryScreen(widget.myContext,
-                    Localizations.localeOf(context).languageCode,
-                   /* ,widget.list![widget.index!].id!,
-                    widget.list![widget.index!].name,*/
+                (context)=>CategoryScreen(widget.myContext
+                    ,widget.list![widget.index!].id!,
+                    widget.list![widget.index!].name,
                    widget.phone))
         );
       },
@@ -49,7 +48,7 @@ class _CardCategoryState extends State<CardCategory> {
                 child: widget.list![widget.index!].image==null?
                     Container():
                 customCachedNetworkImage(
-                  boxFit: BoxFit.cover,
+                  boxFit: BoxFit.scaleDown,
                   context: context,
                   url: widget.list![widget.index!].image!.src,
                 ),

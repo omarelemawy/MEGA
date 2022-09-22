@@ -41,7 +41,8 @@ class _AllCategoryListState extends State<AllCategoryList> {
             appBar: AppBar(
               backgroundColor: Colors.white,
               elevation: 1,
-              title: customText("Categories",
+              title: customText(
+              "جميع التصينفات",
                   color: HexColor("#50555C"),fontWeight: FontWeight.bold,
                   max: 1,overflow: TextOverflow.ellipsis
               ),
@@ -74,7 +75,8 @@ class _AllCategoryListState extends State<AllCategoryList> {
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         itemBuilder: (BuildContext context, int index) {
-        return  CardCategory(widget.myContext,widget.lang,widget.phone,list: list,index: index,);        },
+        return  CardCategory(widget.myContext,widget.lang,widget.phone
+          ,list: list,index: index,);        },
       ),
     );
   }

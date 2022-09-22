@@ -5,14 +5,16 @@ import 'package:gnon/constants/color_constans.dart';
 import 'package:gnon/constants/themes.dart';
 import 'package:gnon/screens/account/account_bloc/account_cubit.dart';
 import 'package:gnon/screens/account/account_bloc/account_state.dart';
+import 'package:gnon/screens/account/privecy/contact_us_screen.dart';
+import 'package:gnon/screens/account/privecy/privecy_screen.dart';
+import 'package:gnon/screens/account/privecy/replacement_policy_screen.dart';
+import 'package:gnon/screens/account/privecy/rules_screen.dart';
 import 'package:gnon/screens/account/profile_screen.dart';
 import 'package:gnon/screens/account/view_dialog.dart';
 import 'package:gnon/screens/auth/login/login_screen.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import '../../constants/widget.dart';
 import '../../localization/localization_constants.dart';
-import '../../models/language.dart';
 import '../../models/user_data.dart';
 import '../../sharedPreferences.dart';
 import '../Cart/ship_to_screen.dart';
@@ -138,8 +140,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   Navigator.pop(context);
                                 },
                                 child: customText(
-                                    getTranslated(context, "Cancel",)!
-                                    ,
+                                    getTranslated(context, "Cancel",)!,
                                     color:
                                     customTextColor.withOpacity(.5),
                                     fontWeight: FontWeight.bold),
@@ -154,16 +155,19 @@ class _AccountScreenState extends State<AccountScreen> {
               ),
             );
           }
+
           return Scaffold(
             body: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Column(
+              child: state is GetProfileLoadingAccountState?
+              Container():
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
                     height: 60,
                   ),
-                  customText(getTranslated(context, "Account")!,
+                  customText("الاعدادات",
                       fontWeight: FontWeight.bold, size: 16),
                   SizedBox(
                     height: 20,
@@ -181,10 +185,10 @@ class _AccountScreenState extends State<AccountScreen> {
                         color: customTextColor, fontWeight: FontWeight.w600),
                     leading: Icon(
                       Icons.person_outline,
-                      color: HexColor("#BA6400"),
+                      color:Colors.black,
                     ),
                     onTap: () {
-                      pushNewScreen(
+                     /* pushNewScreen(
                         context,
                         screen: ProfileScreen(
                             Localizations
@@ -194,16 +198,18 @@ class _AccountScreenState extends State<AccountScreen> {
                         // OPTIONAL VALUE. True by default.
                         pageTransitionAnimation: PageTransitionAnimation
                             .cupertino,
-                      );
-                     /* getUserDate().then((value) {
-                        if (value.email == "" || value.email == null) {
+                      );*/
+                      getUserDate().then((value) {
+                        if (value.email == "" || value.email == null)
+                          {
                           showDialog(
                               context: context,
                               barrierDismissible: false,
                               builder: (BuildContext context) {
                                 return deleteDialog(context);
                               });
-                        } else {
+                        } else
+                          {
                           pushNewScreen(
                             context,
                             screen: ProfileScreen(
@@ -217,7 +223,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           );
                         }
                       }
-                      );*/
+                      );
                     },
                   ),
                   Container(
@@ -228,7 +234,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   ListTile(
                     onTap: () {
                       getUserDate().then((value) {
-                        pushNewScreen(
+                        /*pushNewScreen(
                           context,
                           screen: OrdersListScreen(
                               Localizations
@@ -239,8 +245,8 @@ class _AccountScreenState extends State<AccountScreen> {
                           // OPTIONAL VALUE. True by default.
                           pageTransitionAnimation: PageTransitionAnimation
                               .cupertino,
-                        );
-                        /*if (value.email == "" || value.email == null) {
+                        );*/
+                        if (value.email == "" || value.email == null) {
                           showDialog(
                               context: context,
                               barrierDismissible: false,
@@ -261,72 +267,169 @@ class _AccountScreenState extends State<AccountScreen> {
                             pageTransitionAnimation: PageTransitionAnimation
                                 .cupertino,
                           );
-                        }*/
+                        }
                       }
                       );
                     },
                     leading: Icon(
                       Icons.shopping_bag_outlined,
-                      color: HexColor("#BA6400"),
+                      color: Colors.black,
                     ),
-                    title: customText(getTranslated(context, "Order")!,
+                    title: customText(
+                      "طلباتي"
+                        /*getTranslated(context, "Order")!*/,
                         color: customTextColor, fontWeight: FontWeight.w600),
                   ),
+
+
+
+                  // /*Container(
+                  //  height: 2,
+                  //   width: double.infinity,
+                  //   color: HexColor("#EBF0FF"),
+                  // ),
+                  // ListTile(
+                  //   title: customText(getTranslated(context, "Address")!,
+                  //       color: customTextColor, fontWeight: FontWeight.w600),
+                  //   leading: Icon(
+                  //     Icons.location_on_outlined,
+                  //     color: HexColor("#BA6400"),
+                  //   ),
+                  //   onTap: () {
+                  //     pushNewScreen(
+                  //       context,
+                  //       screen: ShipToScreen(
+                  //         Localizations
+                  //             .localeOf(context)
+                  //             .languageCode,
+                  //         withFloatingActionButton: false,
+                  //       ),
+                  //       withNavBar: false,
+                  //       // OPTIONAL VALUE. True by default.
+                  //       pageTransitionAnimation: PageTransitionAnimation
+                  //           .cupertino,
+                  //     );
+                  //    */
+                  // /* getUserDate().then((value) {
+                  //       if (value.email == "" || value.email == null) {
+                  //         showDialog(
+                  //             context: context,
+                  //             barrierDismissible: false,
+                  //             builder: (BuildContext context) {
+                  //               return deleteDialog(context);
+                  //             });
+                  //       } else {
+                  //         pushNewScreen(
+                  //           context,
+                  //           screen: ShipToScreen(
+                  //             Localizations
+                  //                 .localeOf(context)
+                  //                 .languageCode,
+                  //             withFloatingActionButton: false,
+                  //           ),
+                  //           withNavBar: false,
+                  //           // OPTIONAL VALUE. True by default.
+                  //           pageTransitionAnimation: PageTransitionAnimation
+                  //               .cupertino,
+                  //         );
+                  //       }
+                  //     }
+                  //     );*/
+                  // /*
+                  //   },
+                  // ),*/
+                  //
+                  // /*Container(
+                  //   height: 2,
+                  //   width: double.infinity,
+                  //   color: HexColor("#EBF0FF"),
+                  // ),
+                  // ListTile(
+                  //   onTap: () {
+                  //     getUserDate().then((value) {
+                  //       print(value);
+                  //       if (value.email == "" || value.email == null) {
+                  //         showDialog(
+                  //             context: context,
+                  //             barrierDismissible: false,
+                  //             builder: (BuildContext context) {
+                  //               return deleteDialog(context);
+                  //             });
+                  //       } else {
+                  //         pushNewScreen(
+                  //           context,
+                  //           screen: ShipToScreen(
+                  //             Localizations
+                  //                 .localeOf(context)
+                  //                 .languageCode,
+                  //             withFloatingActionButton: false,
+                  //           ),
+                  //           withNavBar: false,
+                  //           // OPTIONAL VALUE. True by default.
+                  //           pageTransitionAnimation: PageTransitionAnimation
+                  //               .cupertino,
+                  //         );
+                  //       }
+                  //     }
+                  //     );
+                  //   },
+                  //   title: customText(
+                  //       getTranslated(
+                  //         context,
+                  //         "Payment",
+                  //       )!,
+                  //       color: customTextColor,
+                  //       fontWeight: FontWeight.w600),
+                  //   leading: Icon(
+                  //     Icons.payment,
+                  //     color: HexColor("#BA6400"),
+                  //   ),
+                  // ),*/
+
                   Container(
                     height: 2,
                     width: double.infinity,
                     color: HexColor("#EBF0FF"),
                   ),
+
                   ListTile(
-                    title: customText(getTranslated(context, "Address")!,
-                        color: customTextColor, fontWeight: FontWeight.w600),
-                    leading: Icon(
-                      Icons.location_on_outlined,
-                      color: HexColor("#BA6400"),
-                    ),
                     onTap: () {
-                      pushNewScreen(
-                        context,
-                        screen: ShipToScreen(
-                          Localizations
-                              .localeOf(context)
-                              .languageCode,
-                          withFloatingActionButton: false,
-                        ),
-                        withNavBar: false,
-                        // OPTIONAL VALUE. True by default.
-                        pageTransitionAnimation: PageTransitionAnimation
-                            .cupertino,
-                      );
-                     /* getUserDate().then((value) {
-                        if (value.email == "" || value.email == null) {
-                          showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
-                                return deleteDialog(context);
-                              });
-                        } else {
-                          pushNewScreen(
-                            context,
-                            screen: ShipToScreen(
+                      getUserDate().then((value) {
+                        /*pushNewScreen(
+                          context,
+                          screen: OrdersListScreen(
                               Localizations
                                   .localeOf(context)
-                                  .languageCode,
-                              withFloatingActionButton: false,
-                            ),
+                                  .languageCode
+                          ),
+                          withNavBar: false,
+                          // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation: PageTransitionAnimation
+                              .cupertino,
+                        );*/
+                          pushNewScreen(
+                            context,
+                            screen: PrivacyScreen(),
                             withNavBar: false,
                             // OPTIONAL VALUE. True by default.
                             pageTransitionAnimation: PageTransitionAnimation
                                 .cupertino,
                           );
                         }
-                      }
-                      );*/
+
+                      );
                     },
+                    leading: Icon(
+                      Icons.privacy_tip_outlined,
+                      color: Colors.black,
+                    ),
+                    title: customText(
+                        "سياسة الخصوصيه"
+                        /*getTranslated(context, "Order")!*/,
+                        color: customTextColor, fontWeight: FontWeight.w600),
                   ),
 
-                  /*Container(
+                  Container(
                     height: 2,
                     width: double.infinity,
                     color: HexColor("#EBF0FF"),
@@ -334,53 +437,135 @@ class _AccountScreenState extends State<AccountScreen> {
                   ListTile(
                     onTap: () {
                       getUserDate().then((value) {
-                        print(value);
-                        if (value.email == "" || value.email == null) {
-                          showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
-                                return deleteDialog(context);
-                              });
-                        } else {
-                          pushNewScreen(
-                            context,
-                            screen: ShipToScreen(
+                        /*pushNewScreen(
+                          context,
+                          screen: OrdersListScreen(
                               Localizations
                                   .localeOf(context)
-                                  .languageCode,
-                              withFloatingActionButton: false,
+                                  .languageCode
+                          ),
+                          withNavBar: false,
+                          // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation: PageTransitionAnimation
+                              .cupertino,
+                        );*/
+
+                          pushNewScreen(
+                            context,
+                            screen: RulesScreen(
                             ),
                             withNavBar: false,
                             // OPTIONAL VALUE. True by default.
                             pageTransitionAnimation: PageTransitionAnimation
                                 .cupertino,
                           );
-                        }
+
                       }
                       );
                     },
-                    title: customText(
-                        getTranslated(
-                          context,
-                          "Payment",
-                        )!,
-                        color: customTextColor,
-                        fontWeight: FontWeight.w600),
                     leading: Icon(
-                      Icons.payment,
-                      color: HexColor("#BA6400"),
+                      Icons.fact_check_outlined,
+                      color: Colors.black,
                     ),
-                  ),*/
+                    title: customText(
+                        "الشروط والاحكام"
+                        /*getTranslated(context, "Order")!*/,
+                        color: customTextColor, fontWeight: FontWeight.w600),
+                  ),
 
                   Container(
                     height: 2,
                     width: double.infinity,
                     color: HexColor("#EBF0FF"),
                   ),
-                  SizedBox(
-                    height: 10,
+                  ListTile(
+                    onTap: () {
+                      getUserDate().then((value) {
+                        /*pushNewScreen(
+                          context,
+                          screen: OrdersListScreen(
+                              Localizations
+                                  .localeOf(context)
+                                  .languageCode
+                          ),
+                          withNavBar: false,
+                          // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation: PageTransitionAnimation
+                              .cupertino,
+                        );*/
+
+                          pushNewScreen(
+                            context,
+                            screen: ReplacementPolicyScreen(
+
+                            ),
+                            withNavBar: false,
+                            // OPTIONAL VALUE. True by default.
+                            pageTransitionAnimation: PageTransitionAnimation
+                                .cupertino,
+                          );
+
+                      }
+                      );
+                    },
+                    leading: Icon(
+                      Icons.receipt_rounded,
+                      color: Colors.black,
+                    ),
+                    title: customText(
+                        "شروط وسياسة الاستبدال والاسترجاع"
+                        /*getTranslated(context, "Order")!*/,
+                        color: customTextColor, fontWeight: FontWeight.w600),
                   ),
+
+                  Container(
+                    height: 2,
+                    width: double.infinity,
+                    color: HexColor("#EBF0FF"),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      getUserDate().then((value) {
+                        /*pushNewScreen(
+                          context,
+                          screen: OrdersListScreen(
+                              Localizations
+                                  .localeOf(context)
+                                  .languageCode
+                          ),
+                          withNavBar: false,
+                          // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation: PageTransitionAnimation
+                              .cupertino,
+                        );*/
+                          pushNewScreen(
+                            context,
+                            screen: ContactUsScreen(),
+                            withNavBar: false,
+                            // OPTIONAL VALUE. True by default.
+                            pageTransitionAnimation: PageTransitionAnimation
+                                .cupertino,
+                          );
+
+                      }
+                      );
+                    },
+                    leading: Icon(
+                      Icons.contact_phone_outlined,
+                      color: Colors.black,
+                    ),
+                    title: customText(
+                        "تواصل معنا"
+                        /*getTranslated(context, "Order")!*/,
+                        color: customTextColor, fontWeight: FontWeight.w600),
+                  ),
+                  Container(
+                    height: 2,
+                    width: double.infinity,
+                    color: HexColor("#EBF0FF"),
+                  ),
+
+
 
                   ListTile(
                     title: customText(
@@ -397,10 +582,11 @@ class _AccountScreenState extends State<AccountScreen> {
                     leading: Icon(
                       widget.email != "" || widget.email == "null" ?
                       Icons.logout : Icons.login,
-                      color: HexColor("#BA6400"),
+                      color: Colors.black/*HexColor("#44c718")*/,
                     ),
                     onTap: () {
                       MySharedPreferences.saveUserId("");
+                      MySharedPreferences.saveSharedGetToken("");
                       MySharedPreferences.saveUserUserName("");
                       MySharedPreferences.saveUserUserEmail("");
                       MySharedPreferences.saveUserUserPhoneNumber("");
@@ -422,7 +608,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   SizedBox(
                     height: 10,
                   ),
-                  /*widget.email != "" || widget.email == "null" ?*/
+                  widget.email != "" || widget.email == "null" ?
                   ListTile(
                     title: customText(
                         getTranslated(
@@ -443,7 +629,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             return deleteAccount(context);
                           });
                     },
-                  ) /*: SizedBox(),*/
+                  ) : SizedBox(),
                 ],
               ),
             ),

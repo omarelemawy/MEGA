@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gnon/screens/auth/forget_pass/reset_pass.dart';
 import 'package:gnon/screens/auth/forget_pass/virification_code_screen.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -35,10 +34,8 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                 backgroundColor: Colors.white,
                 elevation: 1,
                 centerTitle: false,
-
                 leading: IconButton(onPressed: (){
                  Navigator.pop(context);
-
                 },
                     icon: Icon(Icons.arrow_back_ios,color: HexColor("#9098B1"),size: 15,)),
               ),
@@ -53,7 +50,6 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset("lib/images/gnon-red-logo.png",height: 150,width: 150,),
 
                         customText(getTranslated(context, "Forget Password",)!,
                             fontWeight: FontWeight.bold,size: 16,color: HexColor("#223263")),
@@ -88,14 +84,12 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                         ):
                         customButton((){
                           if (_formKey.currentState!.validate()) {
-                            Navigator.push(context, MaterialPageRoute(builder:
-                                (context)=>VerificationCodeScreen()));
-                            /*print("bbsdrbge");
+
                             LoginCubit.get(context).
                             forgetPass(emailController.text,
                                 Localizations.localeOf(context).languageCode,
                                 context
-                            );*/
+                            );
                           }
                         },context,
                             getTranslated(context, "Send",)!

@@ -68,14 +68,14 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
               backgroundColor: Colors.white,
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: state is GetLoadingCreateAddressState?
+            floatingActionButton: state is GetLoadingSubmitCheckOutState?
             const SpinKitChasingDots(
               color: customColor,
               size: 40,
             ):
             customFloatingActionButton(context,onPress: (){
               if (_formKey.currentState!.validate()) {
-                MySharedPreferences().getUserId().then((value) {
+             /*   MySharedPreferences().getUserId().then((value) {
                   AddressCubit.get(context).updateAddress(
                       value,
                       selectedCountryId,
@@ -88,7 +88,7 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
                       widget.withFloatingActionButton,
                       widget.id
                   );
-                });
+                });*/
               }
             },text:
             getTranslated(context,"Save Address",)!

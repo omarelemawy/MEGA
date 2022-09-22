@@ -4,8 +4,8 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:gnon/constants/themes.dart';
-import 'package:gnon/models/product_model.dart';
 import 'package:gnon/screens/account/view_dialog.dart';
 import 'package:gnon/screens/home_data/home_bloc/home_cubit.dart';
 import 'package:gnon/screens/home_data/home_bloc/home_state.dart';
@@ -19,10 +19,9 @@ import '../../localization/localization_constants.dart';
 import '../../models/product_detail_model.dart';
 import '../../sharedPreferences.dart';
 import '../home/home_screen.dart';
+import 'flash_sale.dart';
 import 'reviews/all_review_screen.dart';
 import 'carouse_slider_home.dart';
-import 'flash_sale.dart';
-
 
 class ItemDetailsScreen extends StatefulWidget {
    ItemDetailsScreen(this.myContext,this.id,this.lang,{Key? key}) : super(key: key);
@@ -35,74 +34,43 @@ class ItemDetailsScreen extends StatefulWidget {
 }
 
 class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
-  var ima="https://megamatgr.com/wp-content/uploads/2022/07/2cc434a0-e78c-4145-bb02-bb3910624bad-300x300.jpg";
+
+
 
   @override
   Widget build(BuildContext context) {
-    ProductsModel pro=ProductsModel(
-        id: 1,
-        name: "omatejijs",
-        /*thumbnail: Thumbnail(
-            name: "namejksdi",
-            url: ima
-        ),*/
-        photos: [
-          Photo(
-              name: "jgsiojg",
-              url: ima
-          ),
-          Photo(
-              name: "jgsiojg",
-              url: ima
-          ),
-          Photo(
-              name: "jgsiojg",
-              url: ima
-          ),
-          Photo(
-              name: "jgsiojg",
-              url: ima
-          ),
-        ],
-        price: "1000",
-        offer: "223",
-        isLiked: "1"
-    );
-    var image="https://megamatgr.com/wp-content/uploads/2022/07/%D8%A7%D9%84%D8%B9%D9%86%D8%A7%D9%8A%D8%A9-%D8%A7%D9%84%D8%B4%D8%AE%D8%B5%D9%8A%D8%A9-530-%C3%97-260-px-530-%C3%97-260-px.png";
-    List<ProductsModel> productListk=[
-      pro,
-      pro,
-      pro,
-      pro,
-      pro,
-    ];
+
     return BlocProvider(
-      create: (context)=>HomeCubit()/*..getProdDetails(widget.lang,widget.id)*/,
-      child: BlocConsumer<HomeCubit,HomeState>(
-        builder: (context,state){
-          ProductDetailsModel? productDetails = HomeCubit.get(context).productDetails;
+      create: (context) =>
+      HomeCubit()
+        ..getProdDetails(widget.lang, widget.id)..
+      getDataFromDatabase(widget.id.toString()),
+
+      child: BlocConsumer<HomeCubit, HomeState>(
+        builder: (context, state) {
+          ProductDetailsModel? productDetails = HomeCubit
+              .get(context)
+              .productDetails;
           Future<bool> onLikeButtonTapped(bool isLiked) async {
             var useId = await MySharedPreferences().getUserId();
-            if (useId != null&& useId != "") {
+            /*if (useId != null && useId != "") {*/
+
               if (isLiked) {
-                HomeCubit.get(context).makeDisLikeProduct(
-                    HomeCubit.get(context).productDetails!.data!.product!.id,
-                    useId,
-                    Localizations.localeOf(context).languageCode,
-                    context
-                );
-                print("isLiked");
-                return !isLiked;
-              } else {
-                HomeCubit.get(context).makeLikeProduct(
-                    HomeCubit.get(context).productDetails!.data!.product!.id,
-                    useId,
-                    Localizations.localeOf(context).languageCode,
-                    context
-                );
+                HomeCubit.get(context).
+                deleteDate(id:HomeCubit.get(context)
+                    .productDetails!
+                    .id.toString());
                 return !isLiked;
               }
-            }else{
+              else {
+                HomeCubit.get(context).
+                insertToDatabase(title:HomeCubit.get(context)
+                    .productDetails!
+                    .id.toString());
+                print("isLiked");
+                return !isLiked;
+              }
+           /* } else {
               showDialog(
                   context: context,
                   barrierDismissible: false,
@@ -110,113 +78,118 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     return deleteDialog(context);
                   });
               return isLiked;
-            }
+            }*/
           }
           return WillPopScope(
-              onWillPop: () async {
-                MySharedPreferences().getUserUserEmail().then((value) {
-                  Navigator.pushAndRemoveUntil(widget.myContext,
-                      MaterialPageRoute(builder:
-                          (context)=>HomeScreen(
-                        Localizations.localeOf(context).languageCode,0,
-                        email: value,
-                      )), (route) => false);
-                });
-                return true;
-              },
+            onWillPop: () async {
+              MySharedPreferences().getUserUserEmail().then((value) {
+                Navigator.pushAndRemoveUntil(widget.myContext,
+                    MaterialPageRoute(builder:
+                        (context) =>
+                        HomeScreen(
+                           0,
+                          email: value,
+                        )), (route) => false);
+              });
+              return true;
+            },
             child: Scaffold(
-              floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+              floatingActionButtonLocation: FloatingActionButtonLocation
+                  .centerFloat,
               floatingActionButton:
-              state is AddToCartLoadingProductDetailsState?
+              state is AddToCartLoadingProductDetailsState ?
               const Center(
-                  child:  SpinKitChasingDots(
+                  child: SpinKitChasingDots(
                     color: customColor,
                     size: 40,
-                  )):
+                  )) :
               customFloatingActionButton(
-              context,text:
-              getTranslated(context,  "Add To Cart",)!,
-                  color: HexColor("#BA6400"),
+                  context, text:
+              getTranslated(context, "Add To Cart",)!,
+                  color: HexColor("#44c718"),
                   onPress:
-                      (){
-                MySharedPreferences().getUserId().then((value) {
-                  if(value==""||value==null){
-                    showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return deleteDialog(context);
-                        });
-                  }
-                  else {
-                    /*HomeCubit.get(context).addToCart(
-                      Localizations
-                          .localeOf(context)
-                          .languageCode,
-                      value,
-                      productDetails!.data!.product!.id,
-                      productDetails.data!.product!.price,
-                      context
-                    );*/
-                  }
-                });
-
-              }),
+                      () {
+                    MySharedPreferences.getUserGetToken().then((value) {
+                      print(value);
+                      if (value == "" || value == null)
+                      {
+                        showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return deleteDialog(context);
+                            });
+                      }
+                      else {
+                        HomeCubit.get(context).addToCart(
+                            Localizations
+                                .localeOf(context)
+                                .languageCode,
+                            value,
+                            productDetails!.id,
+                            productDetails.price,
+                            context
+                        );
+                      }
+                    });
+                  }),
               appBar: AppBar(
                 backgroundColor: Colors.white,
                 elevation: 1,
-                title: state is GetLoadingProductDetailsState?
+                title: state is GetLoadingProductDetailsState ?
                 const Center(
-                    child:  SpinKitChasingDots(
+                    child: SpinKitChasingDots(
                       color: customColor,
                       size: 40,
-                    )):
-               /* productDetails==null?
-                    Container():*/
-              customText(
-              "Product Name will dispaly here ",
-                    color: HexColor("#50555C"),fontWeight: FontWeight.bold,
-                    max: 1,overflow: TextOverflow.ellipsis
+                    )) :
+                productDetails == null ?
+                Container() :
+                customText(
+                    productDetails.name!,
+                    color: HexColor("#50555C"), fontWeight: FontWeight.bold,
+                    max: 1, overflow: TextOverflow.ellipsis
                 ),
                 centerTitle: false,
 
-                leading: IconButton(onPressed: (){
+                leading: IconButton(onPressed: () {
                   MySharedPreferences().getUserUserEmail().then((value) {
-                    Navigator.pushAndRemoveUntil(widget.myContext,
+                    Navigator.pushAndRemoveUntil(context,
                         MaterialPageRoute(builder:
-                        (context)=>HomeScreen(
-                      Localizations.localeOf(context).languageCode,0,
-                      email: value,
-                    )), (route) => false);
+                            (context) =>
+                            HomeScreen(
+                               0,
+                              email: value,
+                            )), (route) => false);
                   });
-
                 },
-                    icon: Icon(Icons.arrow_back_ios,color: HexColor("#9098B1"),size: 15,)),
+                    icon: Icon(Icons.arrow_back_ios, color: HexColor("#9098B1"),
+                      size: 15,)),
               ),
-              body: /*state is GetLoadingProductDetailsState?
+              body: state is GetLoadingProductDetailsState ?
               const Center(
-                  child:  SpinKitChasingDots(
+                  child: SpinKitChasingDots(
                     color: customColor,
                     size: 40,
-                  )):
-              productDetails==null?
-              Container():*/
+                  )) :
+              productDetails == null ?
+              Container() :
               SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /*HomeCubit.get(context).photos!.isNotEmpty?*/
+                    HomeCubit
+                        .get(context)
+                        .photos!
+                        .isNotEmpty ?
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: MyProductCarouseSlider(items:
-                      [
-                        "https://megamatgr.com/wp-content/uploads/2022/07/0b923ea9-1953-4e4f-90f6-1d00df803bba-300x300.jpg",
-                        "https://megamatgr.com/wp-content/uploads/2022/07/474d8aa5-5876-44b7-9cac-c1a26f4170f1-300x300.jpg",
-                        "https://megamatgr.com/wp-content/uploads/2022/07/474d8aa5-5876-44b7-9cac-c1a26f4170f1-300x300.jpg"
-                      ],
-                        autoPlay: false,margin: 0,),
-                    )/*:Container()*/,
+                      HomeCubit
+                          .get(context)
+                          .photos,
+                        autoPlay: false, margin: 0,),
+                    ) : Container(),
 
                     const SizedBox(height: 5,),
                     Row(
@@ -226,11 +199,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             flex: 10,
                             child:
                             ExpandableText(
-                             "Product Name will dispaly here "
+                              productDetails.name!
                               /*productDetails.data!.product!.name!*/,
-                              expandText: getTranslated(context,  "show more",)!,
+                              expandText: getTranslated(context, "show more",)!,
                               collapseText:
-                              getTranslated(context,  "show less",)!,
+                              getTranslated(context, "show less",)!,
                               expandOnTextTap: true,
                               maxLines: 2,
                               style: const TextStyle(
@@ -244,27 +217,27 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                         Expanded(
                           flex: 1,
                           child: LikeButton(
-                            /*onTap: onLikeButtonTapped,*/
+                            onTap: onLikeButtonTapped,
                             size: 20,
-                            isLiked: false /*productDetails.data!.product!.isLiked=="0"?
-                            false:true*/,
+                            isLiked: HomeCubit.get(context).isLike,
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             circleColor:
-                            const CircleColor(start:  Color(0xff00ddff),
+                            const CircleColor(start: Color(0xff00ddff),
                                 end: Color(0xff0099cc)),
                             bubblesColor: const BubblesColor(
-                              dotPrimaryColor:  Color(0xff33b5e5),
+                              dotPrimaryColor: Color(0xff33b5e5),
                               dotSecondaryColor: Color(0xff0099cc),
                             ),
                             likeBuilder: (bool isLiked) {
                               print(isLiked.toString());
                               return DecoratedIcon(
-                                isLiked ? Icons.favorite : Icons.favorite_outline,
+                                isLiked ? Icons.favorite : Icons
+                                    .favorite_outline,
                                 color: isLiked ? HexColor("#FB7181") :
-                                Colors.white,
+                                Colors.grey[600],
                                 size: 20.0,
-                                shadows: const[
+                                /*shadows: const[
                                   BoxShadow(
                                     blurRadius: 12.0,
                                     color: customColor,
@@ -272,9 +245,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                   BoxShadow(
                                     blurRadius: 12.0,
                                     color: customColor,
-                                    offset:  Offset(0, 6.0),
+                                    offset: Offset(0, 6.0),
                                   ),
-                                ],
+                                ],*/
                               )
                               /*Container(
                                 padding: const EdgeInsets.all(4.0),
@@ -304,7 +277,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                         const SizedBox(width: 10,),
                         RatingStars(
                           editable: false,
-                          rating: 3 /*productDetails.data!.reviewTotal!*/,
+                          rating:  double.parse(productDetails.averageRating!),
                           color: Colors.amber,
                           iconSize: 20,
                         ),
@@ -315,13 +288,13 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     Row(
                       children: [
                         const SizedBox(width: 10,),
-                        /*productDetails.data!.product!.price==null?
-                        Container():*/ SizedBox(
+                        productDetails.regularPrice == null ?
+                        Container() : SizedBox(
                           width: 90,
                           child: Text(
-                            /*productDetails.data!.product!.offer==null?
-                            "${productDetails.data!.product!.price!} SAR":*/
-                            "${32} SAR",
+                            !productDetails.onSale! ?
+                            "${productDetails.regularPrice!} ر.س" :
+                            "${productDetails.salePrice} ر.س",
                             maxLines: 1,
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -332,14 +305,14 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           ),
                         ),
                         const Spacer(),
-                       /* productDetails.data!.product!.offer==null?
-                        Container():*/
+                        !productDetails.onSale! ?
+                        Container() :
                         Row(
                           children: [
                             const SizedBox(width: 10,),
                             SizedBox(
-                              child:  Text(
-                                "${120/*productDetails.data!.product!.price!*/} SAR",
+                              child: Text(
+                                "${productDetails.regularPrice!} ر.س",
                                 maxLines: 1,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w200,
@@ -352,9 +325,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             ),
                             const SizedBox(width: 10,),
                             SizedBox(
-                              child:  Text(
-                                "${/*getOffer(productDetails.data!.product!.offer!,
-                                    productDetails.data!.product!.price!)*/120} % Off",
+                              child: Text(
+                                "${getOffer(productDetails.salePrice!,
+                                    productDetails.regularPrice!)} % Off",
                                 maxLines: 1,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
@@ -370,6 +343,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
                       ],
                     ),
+
                     const SizedBox(height: 10,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -377,27 +351,129 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       children: [
                         const SizedBox(width: 10,),
                         customText(
-                            getTranslated(context,  "Details",)!
+                            getTranslated(context, "Details",)!
                             ,
                             fontWeight: FontWeight.bold,
-                            color: HexColor("#F57E2E")),
+                            color: HexColor("#FB7181")),
                       ],
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child:HtmlWidget(
+                        productDetails.description!,
+
+                        // all other parameters are optional, a few notable params:
+
+                        // specify custom styling for an element
+                        // see supported inline styling below
+                        customStylesBuilder: (element) {
+                          if (element.classes.contains('foo')) {
+                            return {'color': 'red'};
+                          }
+
+                          return null;
+                        },
+                        // render a custom widget
+                        customWidgetBuilder: (element) {
+                          if (element.attributes['foo'] == 'bar') {
+                            return Container();
+                          }
+                          return null;
+                        },
+                        // turn on selectable if required (it's disabled by default)
+                        isSelectable: true,
+
+                        // these callbacks are called when a complicated element is loading
+                        // or failed to render allowing the app to render progress indicator
+                        // and fallback widget
+                        onErrorBuilder: (context, element, error) =>
+                            ExpandableText(
+                              productDetails.description!,
+                              expandText: getTranslated(context, "show more",)!,
+                              collapseText: getTranslated(context, "show less",)!,
+                              expandOnTextTap: true,
+                              maxLines: 4,
+                              style: TextStyle(
+                                  color: HexColor("#9098B1"),
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 12
+                              ),
+                              linkColor: Colors.blue,
+                            ),
+                        onLoadingBuilder: (context, element, loadingProgress) =>
+                            CircularProgressIndicator(),
+                        // this callback will be triggered when user taps a link
+
+                        // select the render mode for HTML body
+                        // by default, a simple `Column` is rendered
+                        // consider using `ListView` or `SliverList` for better performance
+                        renderMode: RenderMode.column,
+
+                        // set the default styling for text
+                        textStyle: TextStyle(fontSize: 14),
+
+                        // turn on `webView` if you need IFRAME support (it's disabled by default)
+                        webView: true,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10),
-                      child: ExpandableText(
-                       "The Nike Air Max 270 React ENG combines a full-length React foam midsole with a 270 Max Air unit for unrivaled comfort and a striking visual experience."
-                        /*productDetails.data!.product!.description!*/,
-                        expandText: getTranslated(context,  "show more",)!,
-                        collapseText: getTranslated(context,  "show less",)!,
-                        expandOnTextTap: true,
-                        maxLines: 4,
-                        style: TextStyle(
-                            color: HexColor("#9098B1"),
-                            fontWeight: FontWeight.w300,
-                            fontSize: 12
-                        ),
-                        linkColor: Colors.blue,
+                      child:HtmlWidget(
+                        productDetails.shortDescription!,
+
+                        // all other parameters are optional, a few notable params:
+
+                        // specify custom styling for an element
+                        // see supported inline styling below
+                        customStylesBuilder: (element) {
+                          if (element.classes.contains('foo')) {
+                            return {'color': 'red'};
+                          }
+
+                          return null;
+                        },
+                        // render a custom widget
+                        customWidgetBuilder: (element) {
+                          if (element.attributes['foo'] == 'bar') {
+                            return Container();
+                          }
+                          return null;
+                        },
+                        // turn on selectable if required (it's disabled by default)
+                        isSelectable: true,
+
+                        // these callbacks are called when a complicated element is loading
+                        // or failed to render allowing the app to render progress indicator
+                        // and fallback widget
+                        onErrorBuilder: (context, element, error) =>
+                            ExpandableText(
+                              productDetails.description!,
+                              expandText: getTranslated(context, "show more",)!,
+                              collapseText: getTranslated(context, "show less",)!,
+                              expandOnTextTap: true,
+                              maxLines: 4,
+                              style: TextStyle(
+                                  color: HexColor("#9098B1"),
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 12
+                              ),
+                              linkColor: Colors.blue,
+                            ),
+                        onLoadingBuilder: (context, element, loadingProgress) =>
+                            CircularProgressIndicator(),
+                        // this callback will be triggered when user taps a link
+
+                        // select the render mode for HTML body
+                        // by default, a simple `Column` is rendered
+                        // consider using `ListView` or `SliverList` for better performance
+                        renderMode: RenderMode.column,
+
+                        // set the default styling for text
+                        textStyle: TextStyle(fontSize: 14),
+
+                        // turn on `webView` if you need IFRAME support (it's disabled by default)
+                        webView: true,
                       ),
                     ),
 
@@ -405,54 +481,59 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       children: [
                         const SizedBox(width: 10,),
                         customText(
-                            getTranslated(context,  "Review Product",)!
-                            ,fontWeight: FontWeight.bold),
+                            getTranslated(context, "Review Product",)!
+                            , fontWeight: FontWeight.bold),
                         const Spacer(),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             pushNewScreen(
                               context,
                               screen: ViewAllReviews(
-                                  /*productDetails.data!.reviews*/
-                                /*,
-                                 productDetails.data!.product!.id*/
+                                  HomeCubit.get(context).productListReview,
+                                  productDetails.id
                               ),
-                              withNavBar: false, // OPTIONAL VALUE. True by default.
-                              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                              withNavBar: false,
+                              // OPTIONAL VALUE. True by default.
+                              pageTransitionAnimation: PageTransitionAnimation
+                                  .cupertino,
                             );
-
                           },
                           child: customText(
-                              getTranslated(context,  "See More",)!
-                              ,fontWeight:
-                          FontWeight.bold,color: HexColor("#898A8D"),
+                              getTranslated(context, "See More",)!
+                              , fontWeight:
+                          FontWeight.bold, color: HexColor("#898A8D"),
                               size: 12),
                         ),
                         const SizedBox(width: 10,),
                       ],
                     ),
 
-
+                     /*productDetails.data!.reviewTotal!*/
                     Row(
                       children: [
                         const SizedBox(width: 10,),
                         RatingStars(
                           editable: false,
-                          rating:4/*productDetails.data!.reviewTotal!*/,
+                          rating: double.parse(productDetails.averageRating!),
                           color: Colors.amber,
                           iconSize: 20,
                         ),
                         const SizedBox(width: 10,),
-                        customText(4/*productDetails.data!.reviewTotal!*/.toString(),
+                        customText(double.parse(productDetails.averageRating!)
+                            .toString(),
                             size: 10),
                         const SizedBox(width: 2,),
-                        customText("(${4/*productDetails.data!.reviews!.length*/} Review)",size: 10)
+                        customText(
+                            "(${productDetails.ratingCount!} Review)",
+                            size: 10)
 
                       ],
                     ),
 
+
                     const SizedBox(height: 10,),
-                    /*productDetails.data!.reviews!.isNotEmpty?*/
+
+                    HomeCubit.get(context).productListReview.isNotEmpty?
                     Row(
                       children: [
                         const SizedBox(width: 10,),
@@ -460,74 +541,120 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           height: 50,
                           width: 50,
                           clipBehavior: Clip.antiAliasWithSaveLayer,
-                          decoration:  const BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                           ),
                           child: customCachedNetworkImage(
                             boxFit: BoxFit.cover,
                             context: context,
-                            url:"https://megamatgr.com/wp-content/uploads/2022/07/799f2653-dd7a-4c2a-a7c2-c82ccb605101-300x300.jpg"
-                            /*productDetails.data!.reviews![0].user!.photo*/,
+                            url: HomeCubit.get(context).
+                            productListReview[0].reviewerAvatarUrls!.s96,
                           ),
                         ),
                         const SizedBox(width: 15,),
                         Column(
                           children: [
                             customText(
-                                "omarElem[dsgvolm"/*productDetails.data!.reviews![0].user!.name!*/,
+                                HomeCubit.get(context).
+                                productListReview[0].reviewer!,
                                 fontWeight: FontWeight.bold,
                                 size: 12),
                             const SizedBox(height: 5,),
                             RatingStars(
                               editable: false,
-                              rating: double.parse("3"
-                                /*productDetails.data!.reviews![0].rate!*/),
+                              rating: HomeCubit.get(context).
+                              productListReview[0].rating!.toDouble(),
                               color: Colors.amber,
                               iconSize: 18,
                             ),
                           ],
                         )
                       ],
-                    )/*:
-                    Container()*/,
+                    ) :
+                    Container(),
 
-                    /*productDetails.data!.reviews!.isNotEmpty?*/
+                    HomeCubit.get(context).productListReview.isNotEmpty?
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ExpandableText(
-                            " sneakers up a little bit, not sure if the box was always this small but the 90s are and will always be one of my favorites."
-                            /*productDetails.data!.reviews![0].comment!*/,
-                            expandText: getTranslated(context,   "show more",)!,
-                            collapseText: getTranslated(context,    "show less",)!,
-                            expandOnTextTap: true,
-                            maxLines: 5,
-                            style: TextStyle(
-                                color: HexColor("#9098B1"),
-                                fontWeight: FontWeight.w300,
-                                fontSize: 12
-                            ),
-                            linkColor: Colors.blue,
+                          HtmlWidget(
+                            HomeCubit.get(context).productListReview[0].review!,
+
+                            // all other parameters are optional, a few notable params:
+
+                            // specify custom styling for an element
+                            // see supported inline styling below
+                            customStylesBuilder: (element) {
+                              if (element.classes.contains('foo')) {
+                                return {'color': 'red'};
+                              }
+
+                              return null;
+                            },
+                            // render a custom widget
+                            customWidgetBuilder: (element) {
+                              if (element.attributes['foo'] == 'bar') {
+                                return Container();
+                              }
+                              return null;
+                            },
+                            // turn on selectable if required (it's disabled by default)
+                            isSelectable: true,
+
+                            // these callbacks are called when a complicated element is loading
+                            // or failed to render allowing the app to render progress indicator
+                            // and fallback widget
+                            onErrorBuilder: (context, element, error) =>
+                                ExpandableText(
+                                  HomeCubit.get(context).productListReview[0].review!,
+                                  expandText: getTranslated(context, "show more",)!,
+                                  collapseText: getTranslated(context, "show less",)!,
+                                  expandOnTextTap: true,
+                                  maxLines: 4,
+                                  style: TextStyle(
+                                      color: HexColor("#9098B1"),
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 12
+                                  ),
+                                  linkColor: Colors.blue,
+                                ),
+                            onLoadingBuilder: (context, element, loadingProgress) =>
+                                CircularProgressIndicator(),
+                             renderMode: RenderMode.column,
+
+                            // set the default styling for text
+                            textStyle: TextStyle(fontSize: 14),
+
+                            // turn on `webView` if you need IFRAME support (it's disabled by default)
+                            webView: true,
                           ),
-                          /*const SizedBox(height: 10,),
-                          customText("December 10, 2016",size: 10,color:HexColor("#9098B1")),*/
                         ],
                       ),
-                    )/*:
-                    Container()*/,
+                    ) :
+                    Container(),
 
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: customText(
-                          getTranslated(context,"You Might Also Like",)!
-                          ,fontWeight: FontWeight.bold),
+                          getTranslated(context, "You Might Also Like",)!
+                          , fontWeight: FontWeight.bold),
                     ),
+
+                    HomeCubit.get(context).productListRelated==null?
+                    const Center(
+                        child: SpinKitChasingDots(
+                          color: customColor,
+                          size: 40,
+                        )) :
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: FlashSale(widget.myContext,productListk),
+                      child: FlashSale(widget.myContext,
+                          HomeCubit.get(context).productListRelated!,
+                          HomeCubit.get(context).favList,
+                      ),
                     ),
                     const SizedBox(height: 80,)
                   ],
@@ -537,13 +664,13 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
             ),
           );
         },
-        listener: (context,state){},
+        listener: (context, state) {},
       ),
     );
   }
-  double getOffer(String offer,String price)
-  {
-    return ((int.parse(price)-int.parse(offer))/
-        int.parse(price)) * 100;
+
+  String getOffer(String offer, String price) {
+    return (((int.parse(price) - int.parse(offer)) /
+        int.parse(price)) * 100).toStringAsFixed(1);
   }
 }

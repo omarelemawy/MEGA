@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -24,6 +25,25 @@ void main() async{
     _locale = Locale(language!);
   }
    email=await MySharedPreferences().getUserUserEmail();
+//   FirebaseMessaging messaging = FirebaseMessaging.instance;
+// /*
+//   final fcmToken = await FirebaseMessaging.instance.
+//   getToken(vapidKey:
+//   "BGaisRobnHwY0N2eyGD_rx6gHCz7cScyuUlVtBufcELzeLiKymnsWsw5jlQIStu7q5A2EIPjv-oa6MqEdlq2ors");*/
+//  /* await FirebaseMessaging.instance.setAutoInitEnabled(true);*/
+//   FirebaseMessaging.onBackgroundMessage((message)async{
+//     print(message);
+//   });
+//   NotificationSettings settings = await messaging.requestPermission(
+//     alert: true,
+//     announcement: false,
+//     badge: true,
+//     carPlay: false,
+//     criticalAlert: false,
+//     provisional: false,
+//     sound: true,
+//   );
+//   print('User granted permission: ${settings.authorizationStatus}');
   runApp( MyApp());
 }
 
@@ -51,7 +71,6 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       supportedLocales: const [
         Locale('ar', 'EG'),
-        Locale('en', 'US'),
       ],
       locale: _locale,
       localizationsDelegates: const [
@@ -67,7 +86,7 @@ class _MyAppState extends State<MyApp> {
         }
         else if(_locale!=null&&
             _locale!.languageCode.split("_")[0]==supportedLocales.last.languageCode){
-          return supportedLocales.last;
+          return supportedLocales.first;
         }
         else {
           for (var locale in supportedLocales) {
@@ -85,7 +104,7 @@ class _MyAppState extends State<MyApp> {
       home: MaterialApp(
             supportedLocales: const [
               Locale('ar', 'EG'),
-              Locale('en', 'US'),
+             /* Locale('en', 'US'),*/
             ],
             locale: _locale,
             localizationsDelegates: const [
@@ -116,12 +135,12 @@ class _MyAppState extends State<MyApp> {
               else if(_locale!=null&&
                   _locale!.languageCode.split("_")[0]==supportedLocales.last.languageCode){
                 print("llldvvddvdll3333");
-                return supportedLocales.last;
+                return supportedLocales.first;
               }
               else {
                 for (var locale in supportedLocales) {
                   if (locale.languageCode == deviceLocale!.languageCode) {
-                    return deviceLocale;
+                    return supportedLocales.first;
                   }
                 }
               }
@@ -137,3 +156,21 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+//import io.flutter.embedding.android.FlutterActivity
+//
+//
+//class Application : FlutterApplication(), PluginRegistrantCallback {
+//    // ...
+//    @Override
+//    fun onCreate() {
+//        super.onCreate()
+//        FlutterFirebaseMessagingBackgroundService.setPluginRegistrant(this)
+//    }
+//
+//    @Override
+//    fun registerWith(registry: PluginRegistry?) {
+//        GeneratedPluginRegistrant.registerWith(registry)
+//    } // ...zz
+//}*/
+//class MainActivity: FlutterActivity() {}

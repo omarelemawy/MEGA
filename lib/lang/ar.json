@@ -1,6 +1,6 @@
 {
   "skip"                                            : "تخطي",
-  "Welcome  to MEGA Store": "مرحبا بك في ميجا ستور",
+  "Welcome  to MEGA Store": "أهلا بك في ميجا متجر",
   "Sign in to continue": "تسجيل الدخول للمتابعة",
   " Oops! Your Email Is Not Correct ": "عفوًا! بريدك الإلكتروني غير صحيح",
   " Oops! Your Password Is Not Correct ": "عفوًا! كلمة المرور الخاصة بك غير صحيحة",
@@ -162,6 +162,12 @@
   "Reset PassWord": "إعادة تعيين كلمة المرور",
   "Send Review": "إرسال مراجعة",
   "Change Email": "تغيير الايميل",
-  "we will send verification code to your new email": "سنرسل رمز التحقق إلى بريدك الإلكتروني الجديد"
-
+  "we will send verification code to your new email": "سنرسل رمز التحقق إلى بريدك الإلكتروني الجديد",
+  "Please Enter Last Name": "الرجاء إدخال الاسم الأخير",
+  "Please Enter Email": "الرجاء إدخال البريد الإلكتروني",
+  "Full Address": "العنوان الكامل",
+  "Please Enter Full Address": "الرجاء إدخال العنوان بالكامل",
+  "Please Enter City": "الرجاء إدخال المدينة",
+  "State": "الولايه",
+  "Please Enter State": "الرجاء إدخال الولاية"
 }

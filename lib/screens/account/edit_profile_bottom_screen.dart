@@ -7,12 +7,11 @@ import 'package:gnon/constants/themes.dart';
 import 'package:gnon/constants/widget.dart';
 import 'package:gnon/screens/account/account_bloc/account_cubit.dart';
 import 'package:gnon/screens/account/account_bloc/account_state.dart';
-import 'package:gnon/sharedPreferences.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-
 import '../../constants/color_constans.dart';
 import '../../localization/localization_constants.dart';
+import '../../sharedPreferences.dart';
 
 class EditProfileBottomScreen extends StatefulWidget {
    EditProfileBottomScreen(this.selectEdit,{Key? key}) : super(key: key);
@@ -70,7 +69,7 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
 
                           hint: Text(
                             getTranslated(context," Select Your Gender",)! ,
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: 14,fontFamily: "Poppins"),
                           ),
                           icon: const Icon(
                             Icons.arrow_drop_down,
@@ -125,7 +124,7 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
 
                         customFloatingActionButton(
                             context,
-                            color: HexColor("#BA6400"),
+                            color: HexColor("#44c718"),
                             text:getTranslated(context,"Save",)!,
                             onPress: () {
                               Navigator.pop(context);
@@ -186,7 +185,7 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
 
                           customFloatingActionButton(
                               context,
-                              color: HexColor("#BA6400"),
+                              color: HexColor("#44c718"),
                               text:getTranslated(context,"Save",)!,
                               onPress: () {
                                 print(date);
@@ -266,12 +265,11 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
 
                         customFloatingActionButton(
                             context,
-                            color: HexColor("#BA6400"),
+                            color: HexColor("#44c718"),
                             text:getTranslated(context,"Save",)!,
                             onPress: () {
-                              Navigator.pop(context);
-                             /* if (_formKey.currentState!.validate()) {
-                                MySharedPreferences().getUserId().then((value) {
+                              if (_formKey.currentState!.validate()) {
+                                MySharedPreferences.getUserGetToken().then((value) {
                                   AccountCubit.get(context).updateProfile(
                                       Localizations.localeOf(context).languageCode,
                                       value,
@@ -279,7 +277,7 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
                                       email: emailController.text
                                   );
                                 });
-                              }*/
+                              }
                             })
                       ],
                     ),
@@ -330,20 +328,19 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
 
                         customFloatingActionButton(
                             context,
-                            color: HexColor("#BA6400"),
+                            color: HexColor("#44c718"),
                             text:getTranslated(context,"Save",)!,
                             onPress: () {
-                              Navigator.pop(context);
-                              /*if (_formKey.currentState!.validate()) {
-                                MySharedPreferences().getUserId().then((value) {
+                              if (_formKey.currentState!.validate()) {
+                                MySharedPreferences.getUserGetToken().then((value) {
                                   AccountCubit.get(context).updateProfile(
                                       Localizations.localeOf(context).languageCode,
                                       value,
                                       context,
-                                      phone: nameController.text
+                                      name: nameController.text
                                   );
                                 });
-                              }*/
+                              }
                             })
                       ],
                     ),
@@ -392,7 +389,7 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
 
                         customFloatingActionButton(
                             context,
-                            color: HexColor("#BA6400"),
+                            color: HexColor("#44c718"),
                             text:getTranslated(context,"Save",)!,
                             onPress: () {
                               Navigator.pop(context);
@@ -482,13 +479,12 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
 
                         customFloatingActionButton(
                             context,
-                            color: HexColor("#BA6400"),
+                            color: HexColor("#44c718"),
                             text:getTranslated(context,"Save",)!,
                             onPress: () {
-                              Navigator.pop(context);
-                              /*if (_formKey.currentState!.validate()) {
+                              if (_formKey.currentState!.validate()) {
                                 if(newPassController.text==confirmPassController.text) {
-                                  MySharedPreferences().getUserId().then((
+                                  MySharedPreferences.getUserGetToken().then((
                                       value) {
                                     AccountCubit.get(context).updateProfile(
                                         Localizations
@@ -500,7 +496,7 @@ class _EditProfileBottomScreenState extends State<EditProfileBottomScreen> {
                                     );
                                   });
                                 }
-                              }*/
+                              }
                             })
                       ],
                     ),

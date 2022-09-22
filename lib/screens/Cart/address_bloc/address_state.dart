@@ -36,12 +36,12 @@ class GetErrorCityAddressState extends AddressState {
   String error;
 }
 
-class GetLoadingCreateAddressState extends AddressState {}
+class GetLoadingSubmitCheckOutState extends AddressState {}
 
-class GetSuccessCreateAddressState extends AddressState {}
+class GetSuccessSubmitCheckOutState extends AddressState {}
 
-class GetErrorCreateAddressState extends AddressState {
-  GetErrorCreateAddressState(this.error);
+class GetErrorSubmitCheckOutState extends AddressState {
+  GetErrorSubmitCheckOutState(this.error);
   String error;
 }
 

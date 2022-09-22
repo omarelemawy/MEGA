@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 import 'package:gnon/constants/MediaButton.dart';
 import 'package:gnon/constants/themes.dart';
 import 'package:gnon/screens/home_data/reviews/bloc/review_cubit.dart';
-import 'package:gnon/sharedPreferences.dart';
+
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../../constants/color_constans.dart';
 import '../../../localization/localization_constants.dart';
+import '../../../sharedPreferences.dart';
 
 class AddReviewScreen extends StatefulWidget {
-   AddReviewScreen(/*this.productId,this.email*/{Key? key}) : super(key: key);
-   /*int? productId;
-   String? email;*/
+   AddReviewScreen(this.productId,{Key? key}) : super(key: key);
+   int? productId;
+
   @override
   _AddReviewScreenState createState() => _AddReviewScreenState();
 }
@@ -116,29 +118,31 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                 ),
               ),
               SizedBox(height: 40,),
-               /*state is GetLoadingProductReviewState?
+               state is GetLoadingProductReviewState?
                const Center(
                    child: SpinKitChasingDots(
                      color: customColor,
                      size: 40,
-                   )):*/
+                   )):
               customButton((){
 
-                /*MySharedPreferences().getUserId().then((value) {
-                  ReviewCubit.get(context).
-                  sendReview(Localizations.localeOf(context).languageCode
-                      ,widget.productId,value,
-                      commentController.text,
-                      rate,
-                      widget.email,
-                      context
-                  );
-                });*/
+                MySharedPreferences().getUserUserEmail().then((value) {
+                  MySharedPreferences.getUserUserName().then((value1) {
+                    ReviewCubit.get(context).
+                    getToken(Localizations.localeOf(context).languageCode
+                        ,widget.productId,value1,
+                        commentController.text,
+                        rate,
+                        value,
+                        context
+                    );
+                  });
+                });
 
               }
                   ,context,
                   getTranslated(context, "Send Review",)!,
-                  color: HexColor("#BA6400")
+                  color: HexColor("#44c718")
                   ,width: MediaQuery.of(context).size.width
               )
             ],

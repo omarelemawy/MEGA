@@ -3,8 +3,9 @@ import 'package:gnon/models/product_model.dart';
 import 'package:gnon/screens/home_data/card_home.dart';
 
 class YouMayLikeHome extends StatefulWidget {
-   YouMayLikeHome(this.myContext,this.listProduct,{Key? key,this.physics}) : super(key: key);
+   YouMayLikeHome(this.myContext,this.listProduct,{Key? key,this.physics,this.favList}) : super(key: key);
    List<ProductsModel> listProduct;
+   List? favList;
   ScrollPhysics? physics;
   var myContext;
   @override
@@ -23,14 +24,17 @@ class _YouMayLikeHomeState extends State<YouMayLikeHome> {
         mainAxisSpacing: 10,
         crossAxisSpacing: 10,
         crossAxisCount: 2,
-          mainAxisExtent:MediaQuery.of(context).size.height/3.4
+          mainAxisExtent:MediaQuery.of(context).size.height/3.2
       ),
       scrollDirection: Axis.vertical,
       physics: widget.physics,
       shrinkWrap: true,
       padding: EdgeInsets.zero,
       itemBuilder: (BuildContext context, int index) {
-        return CardHome(widget.myContext,list: listProduct,index: index,);
+        return CardHome(widget.myContext,
+          list: listProduct,
+          index: index,
+          favList:widget.favList ,);
       },
     );
   }

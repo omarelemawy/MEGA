@@ -46,13 +46,15 @@ InputDecoration textFormInputDecorationForPassword(
   return InputDecoration(
     hintText: label,
     errorText: error,
-    fillColor: Colors.white,
-    hintStyle: TextStyle(color:customTextColor.withOpacity(0.5) ),
 
-    filled: true,
     isDense: true,
-    prefixIcon: Icon(Icons.lock_outline_rounded,
-        color:customTextColor.withOpacity(0.5) ),
+    labelStyle: TextStyle(
+      fontFamily: "Poppins",
+    ),
+    hintStyle: TextStyle(
+      fontFamily: "Poppins",
+    ),
+    prefixIcon: Icon(Icons.lock_outline_rounded),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10)
     ),
@@ -184,6 +186,7 @@ Widget customText(String text,
     overflow: overflow,
     style:
         TextStyle(color: color, fontFamily: "Poppins", fontWeight: fontWeight,
+        letterSpacing: 0,
         fontSize: size,decoration: decoration),
   );
 }

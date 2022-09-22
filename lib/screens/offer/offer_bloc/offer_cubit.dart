@@ -1,5 +1,7 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gnon/models/product_model.dart';
 
@@ -12,31 +14,25 @@ class OfferCubit extends Cubit<OfferState> {
   static OfferCubit get(context)=>BlocProvider.of(context);
   List<ProductsModel> productsOfferList=[];
 
-  Future<List<ProductsModel>?> getProductesOffer(lang,userId)async{
+  Future<List<ProductsModel>?> getProductesOffer(userId)async{
     emit(GetLoadingProductsOfferState());
-    var response = await Dio().get(
-        Utils.CategoryProduct_URL,options:
-    Options(headers: {
-      "lang":lang,
-      "Accept-Language":lang,
-      "user":userId
-    }),
-      queryParameters: {
-          "offer":1
-      }
+    final response = await http.get(
+      Uri.parse(Utils.CategoryProduct_URL+"?"+Utils.BASEData_URL+"&on_sale=true"),
     );
-    if(response.data["status"]=="success")
+    print(response.body);
+    Iterable l = json.decode(response.body);
+
+    if(response.statusCode == 200)
     {
       emit(GetSuccessProductsOfferState());
-      print(ProductsCategoryModel.fromJson(response.data).data![0].name);
-      return ProductsCategoryModel.fromJson(response.data).data;
+      return List<ProductsModel>.from(l.map((model)=> ProductsModel.fromJson(model)));
     }else{
-      emit(GetErrorProductsOfferState(response.data["message"]));
+      emit(GetErrorProductsOfferState(json.decode(response.body)["message"]));
     }
   }
-  void getProOffer(lang){
+  void getProOffer(){
     MySharedPreferences().getUserId().then((value) {
-      getProductesOffer(lang,value).then((value) {
+      getProductesOffer(value).then((value) {
         productsOfferList = value!;
       });
     });

@@ -263,7 +263,7 @@ class _ShipToScreenState extends State<ShipToScreen> {
     }
 
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+     /* floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton:
       widget.withFloatingActionButton!?
       customFloatingActionButton(context, onPress: () {
@@ -293,14 +293,13 @@ class _ShipToScreenState extends State<ShipToScreen> {
       }, text:
       getTranslated(context,  "Next",)!,
       color: HexColor("#BA6400")):
-      Container(),
+      Container()*/
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
               MySharedPreferences().getUserUserEmail().then((value){
                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:
-                    (context)=> HomeScreen(
-                  Localizations.localeOf(context).languageCode,0,
+                    (context)=> HomeScreen(0,
                   email: value,
                 )
                 ), (route) => false);

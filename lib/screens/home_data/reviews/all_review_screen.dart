@@ -1,5 +1,6 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:gnon/constants/themes.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:rate_in_stars/rate_in_stars.dart';
@@ -7,14 +8,15 @@ import 'package:rate_in_stars/rate_in_stars.dart';
 import '../../../constants/widget.dart';
 import '../../../localization/localization_constants.dart';
 import '../../../models/product_detail_model.dart';
+import '../../../models/review_product.dart';
 import '../../../models/user_data.dart';
 import '../../account/view_dialog.dart';
 import 'add_review_screen.dart';
 
 class ViewAllReviews extends StatefulWidget {
-   ViewAllReviews(/*this.reviews,this.product,*/{Key? key}) : super(key: key);
-   /*int? product;*/
-  /*List<Reviews>? reviews;*/
+   ViewAllReviews(this.reviews,this.product,{Key? key}) : super(key: key);
+   int? product;
+  List<ReviewProductModel>? reviews;
 
   @override
   _ViewAllReviewsState createState() => _ViewAllReviewsState();
@@ -26,15 +28,15 @@ class _ViewAllReviewsState extends State<ViewAllReviews> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton:customFloatingActionButton(context,
-          color: HexColor("#BA6400"),
-          text: getTranslated(context, "Write Review",)!
+          color: HexColor("#44c718"),
+          text: "اضف مراجعه"/*getTranslated(context, "Write Review",)!*/
          ,onPress:
            (){
             Navigator.push(context, MaterialPageRoute(builder:
                 (context)=>
                 AddReviewScreen(
-                     /* widget.product*/
-                    /*value.email*/
+                      widget.product,
+
                 )));
             /*getUserDate().then((value) {
               if(value.email==""||value.email==null) {
@@ -78,7 +80,7 @@ class _ViewAllReviewsState extends State<ViewAllReviews> {
           Navigator.pop(context);
         }, icon:
         const Icon(Icons.arrow_back_ios,size: 14,)),
-        title: customText(" ${10/*widget.reviews!.length*/} "" ${getTranslated(context, "Reviews")}     "
+        title: customText(" ${widget.reviews!.length} "" ${getTranslated(context, "Reviews")}     "
             ,fontWeight: FontWeight.bold),
       ),
       body: Padding(
@@ -102,21 +104,19 @@ class _ViewAllReviewsState extends State<ViewAllReviews> {
                          child: customCachedNetworkImage(
                            boxFit: BoxFit.cover,
                            context: context,
-                           url: "https://megamatgr.com/wp-content/uploads/2022/07/2a1762b4-853e-4b2b-ba74-892b591cf27e-300x300.jpg"
-                           /*widget.reviews![index].user!.photo*/,
+                           url:widget.reviews![index].reviewerAvatarUrls!.s96,
                          ),
                        ),
                        SizedBox(width: 15,),
                        Column(
                          children: [
-                           customText("mohamed"
-                               /*widget.reviews![index].user!.name!*/,
+                           customText(widget.reviews![index].reviewer!,
                                fontWeight: FontWeight.bold,
                                size: 12),
                            SizedBox(height: 5,),
                            RatingStars(
                              editable: false,
-                             rating: double.parse("4"/*widget.reviews![index].rate!*/),
+                             rating: widget.reviews![index].rating!.toDouble(),
                              color: Colors.amber,
                              iconSize: 18,
                            ),
@@ -130,22 +130,63 @@ class _ViewAllReviewsState extends State<ViewAllReviews> {
                        mainAxisAlignment: MainAxisAlignment.start,
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: [
-                         ExpandableText(
-                            "air max are always very comfortable fit, clean and just perfect in "
-                           /*widget.reviews![index].comment!*/,
-                           expandText: getTranslated(context, "show more",)!
-                           ,
-                           collapseText: getTranslated(context, "show less",)!
-                           ,
-                           expandOnTextTap: true,
-                           maxLines: 5,
-                           style: TextStyle(
-                               color: HexColor("#9098B1"),
-                               fontWeight: FontWeight.w300,
-                               fontSize: 12
-                           ),
-                           linkColor: Colors.blue,
+                         HtmlWidget(
+                           widget.reviews![index].review!,
+
+                           // all other parameters are optional, a few notable params:
+
+                           // specify custom styling for an element
+                           // see supported inline styling below
+                           customStylesBuilder: (element) {
+                             if (element.classes.contains('foo')) {
+                               return {'color': 'red'};
+                             }
+
+                             return null;
+                           },
+                           // render a custom widget
+                           customWidgetBuilder: (element) {
+                             if (element.attributes['foo'] == 'bar') {
+                               return Container();
+                             }
+                             return null;
+                           },
+                           // turn on selectable if required (it's disabled by default)
+                           isSelectable: true,
+
+                           // these callbacks are called when a complicated element is loading
+                           // or failed to render allowing the app to render progress indicator
+                           // and fallback widget
+                           onErrorBuilder: (context, element, error) =>
+                               ExpandableText(
+                                 widget.reviews![index].review!,
+                                 expandText: getTranslated(context, "show more",)!,
+                                 collapseText: getTranslated(context, "show less",)!,
+                                 expandOnTextTap: true,
+                                 maxLines: 4,
+                                 style: TextStyle(
+                                     color: HexColor("#9098B1"),
+                                     fontWeight: FontWeight.w300,
+                                     fontSize: 12
+                                 ),
+                                 linkColor: Colors.blue,
+                               ),
+                           onLoadingBuilder: (context, element, loadingProgress) =>
+                               CircularProgressIndicator(),
+                           // this callback will be triggered when user taps a link
+
+                           // select the render mode for HTML body
+                           // by default, a simple `Column` is rendered
+                           // consider using `ListView` or `SliverList` for better performance
+                           renderMode: RenderMode.column,
+
+                           // set the default styling for text
+                           textStyle: TextStyle(fontSize: 14),
+
+                           // turn on `webView` if you need IFRAME support (it's disabled by default)
+                           webView: true,
                          ),
+
                          SizedBox(height: 10,),
                          /*customText("December 10, 2016",size: 10,color:HexColor("#9098B1")),*/
                        ],
@@ -158,7 +199,7 @@ class _ViewAllReviewsState extends State<ViewAllReviews> {
             separatorBuilder: (context,index){
             return const SizedBox(height: 2,);
             },
-            itemCount: 10/*widget.reviews!.length*/),
+            itemCount: widget.reviews!.length),
       ),
     );
   }

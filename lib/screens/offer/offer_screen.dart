@@ -14,8 +14,8 @@ import '../../models/product_model.dart';
 import '../home_data/you_may_like.dart';
 
 class OfferScreen extends StatefulWidget {
-   OfferScreen(this.myContext,this.lang,this.phone,{Key? key}) : super(key: key);
-  String lang;
+   OfferScreen(this.myContext,this.phone,{Key? key}) : super(key: key);
+
   var myContext;
    String phone;
   @override
@@ -26,48 +26,11 @@ class _OfferScreenState extends State<OfferScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context)=>OfferCubit()/*..getProOffer(widget.lang)*/,
+      create: (context)=>OfferCubit()..getProOffer(),
       child: BlocConsumer<OfferCubit,OfferState>(
         builder: (context,state){
           var productsOfferList = OfferCubit.get(context).productsOfferList;
-          var ima="https://megamatgr.com/wp-content/uploads/2022/07/2cc434a0-e78c-4145-bb02-bb3910624bad-300x300.jpg";
-          var ima1="https://megamatgr.com/wp-content/uploads/2022/07/0289ab0c-ad6b-45d7-a818-18c64bbaeffe-300x300.jpeg";
-          ProductsModel pro=ProductsModel(
-              id: 1,
-              name: "omatejijs",
-              thumbnail: Thumbnail(
-                  name: "namejksdi",
-                  url: ima
-              ),
-              photos: [
-                Photo(
-                    name: "jgsiojg",
-                    url: ima
-                ),
-                Photo(
-                    name: "jgsiojg",
-                    url: ima1
-                ),
-                Photo(
-                    name: "jgsiojg",
-                    url: ima
-                ),
-                Photo(
-                    name: "jgsiojg",
-                    url: ima1
-                ),
-              ],
-              price: "1000",
-              offer: "223",
-              isLiked: "1"
-          );
-          List<ProductsModel> productListk=[
-            pro,
-            pro,
-            pro,
-            pro,
-            pro,
-          ];
+
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.white,
@@ -94,7 +57,7 @@ class _OfferScreenState extends State<OfferScreen> {
                   size: 40,
                 ),
               ):
-                YouMayLikeHome(widget.myContext,productListk),
+                YouMayLikeHome(widget.myContext,productsOfferList),
             ),
           );
         },

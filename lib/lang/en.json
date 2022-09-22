@@ -161,7 +161,13 @@
   "Reset PassWord": "Reset PassWord",
   "Send Review": "Send Review",
   "Change Email": "Change Email",
-  "we will send verification code to your new email": "we will send verification code to your new email"
-
+  "we will send verification code to your new email": "we will send verification code to your new email",
+  "Please Enter Last Name": "Please Enter Last Name",
+  "Please Enter Email": "Please Enter Email",
+  "Full Address": "Full Address",
+  "Please Enter Full Address": "Please Enter Full Address",
+  "Please Enter City": "Please Enter City",
+  "State": "State",
+  "Please Enter State": "Please Enter State"
 
 }

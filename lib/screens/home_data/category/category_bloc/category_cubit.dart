@@ -21,7 +21,7 @@ class CategoryCubit extends Cubit<CategoryState> {
   Future<List<CategoryListModel>?> getCategory(lang)async{
     emit(GetLoadingCategoryState());
     final response = await http.get(
-      Uri.parse(Utils.Category_URL+'?consumer_key=ck_7b06588bcc97aea8ffd7025d81d468f7abd902a6&consumer_secret=cs_e792875f045471bbcbb999d8d841d37842ef3c5b'),
+      Uri.parse(Utils.Category_URL+"?"+Utils.BASEData_URL+"&per_page=100"),
     );
     Iterable l = json.decode(response.body);
     if(response.statusCode == 200)
@@ -39,33 +39,28 @@ class CategoryCubit extends Cubit<CategoryState> {
   }
 
   Future<List<ProductsModel>?> getProductOfCategory
-      (lang,id,userId)async{
-    print(lang);
+      (id,userId)async{
+    print(id);
     emit(GetLoadingProductCategoryState());
-    var response = await Dio().get(
-        Utils.CategoryProduct_URL,options:
-    Options(headers: {
-      "lang":lang,
-      "Accept-Language":lang,
-      "user":userId
-    },),
-      queryParameters: {
-        "category":id
-      }
+    final response = await http.get(
+      Uri.parse(Utils.CategoryProduct_URL+"?"+Utils.BASEData_URL+"&category=$id"),
+
     );
-    print(response.data);
-    if(response.data["status"]=="success")
+    print(response.body);
+    Iterable l = json.decode(response.body);
+
+    if(response.statusCode == 200)
     {
       emit(GetSuccessProductCategoryState());
-      return ProductsCategoryModel.fromJson(response.data).data;
+      return List<ProductsModel>.from(l.map((model)=> ProductsModel.fromJson(model)));
     }else{
-      emit(GetErrorProductCategoryState(response.data["message"]));
+      emit(GetErrorProductCategoryState(json.decode(response.body)["message"]));
     }
   }
-  void getProCat(lang,id){
-    MySharedPreferences().getUserId().then((value) {
 
-      getProductOfCategory(lang, id,value).then((value) {
+  void getProCat(id){
+    MySharedPreferences().getUserId().then((value) {
+      getProductOfCategory( id,value).then((value) {
         categoryProductList = value!;
       });
     });

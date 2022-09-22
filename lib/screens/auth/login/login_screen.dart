@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gnon/constants/color_constans.dart';
 import 'package:gnon/screens/auth/login/cubit_login/login_cubit.dart';
 import 'package:gnon/screens/auth/register/register_screen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../constants/MediaButton.dart';
@@ -26,6 +28,11 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
+GoogleSignIn _googleSignIn=GoogleSignIn(
+  scopes: [
+    "email"
+  ]
+);
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -39,6 +46,15 @@ class _LoginScreenState extends State<LoginScreen> {
     MySharedPreferences.saveAppLang(_locale.toString());
     UserDateModel.appLang = await MySharedPreferences.getAppLang();
   }
+  GoogleSignInAccount? _googleSignInAccount;
+  @override
+  void initState() {
+    _googleSignIn.onCurrentUserChanged.listen((event) {
+     _googleSignInAccount=event;
+    });
+    _googleSignIn.signInSilently();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -47,7 +63,6 @@ class _LoginScreenState extends State<LoginScreen> {
         builder:(context, state) =>
             Scaffold(
               key: _scaffoldKey,
-
             body: Container(
             height: double.infinity,
             width: double.infinity,
@@ -94,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextButton(onPressed: ()async{
                          await MySharedPreferences.saveUserUserEmail("");
                           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:
-                              (context)=> HomeScreen(Localizations.localeOf(context).languageCode,0,
+                              (context)=> HomeScreen(0,
                                 email: "",)), (route) => false);
                         }, child: customText(getTranslated(context, 'skip')!)),
                       ],
@@ -105,8 +120,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.bold,
                         size: 16),
                     const SizedBox(height: 10,),
-                    customText(getTranslated(context, "Sign in to continue",)!,
-                        fontWeight: FontWeight.w100,size: 12,color: HexColor("#9098B1")),
                     const SizedBox(height: 40,),
                     TextFormField(
                       controller: emailController,
@@ -116,6 +129,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: InputDecoration(
                           contentPadding: const EdgeInsets.all(10),
                           prefixIcon: const Icon(Icons.mail_outline),
+                          labelStyle: TextStyle(
+                           fontFamily: "Poppins",
+                          ),
+                          hintStyle: TextStyle(
+                            fontFamily: "Poppins",
+                          ),
                           hintText: getTranslated(context, "Your Email",)!,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10)
@@ -149,15 +168,12 @@ class _LoginScreenState extends State<LoginScreen> {
                      ):
                     customButton((){
                       if (_formKey.currentState!.validate()) {
-                        print("bbsdrbge");
-                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:
-                            (context)=>HomeScreen("en",0,email: email,)), (route) => false);
-                       /* LoginCubit.get(context).
+                        LoginCubit.get(context).
                         loginWithEmail(emailController.text,
                             passController.text,
                             Localizations.localeOf(context).languageCode,
                             context
-                        );*/
+                        );
                       }
                        },context,
                         getTranslated(context, "Sign In",)!
@@ -180,7 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             getTranslated(context, "OR",)!,
                             style: const TextStyle(
                                 fontWeight: FontWeight.w700,
-                                color: Colors.grey
+                                color: Colors.grey, fontFamily: "Poppins",
                             )
                         ),
                         const SizedBox(width: 5),
@@ -191,11 +207,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    /*  const SizedBox(height: 20),
                      InkWell(
-                      onTap: () {
-                        setState(() {
-                        });
+                      onTap: () async{
+                        await _googleSignIn.signIn();
+                        print(_googleSignInAccount!.email);
                       },
                       child: Container(
                         padding: const EdgeInsets.all(10),
@@ -209,7 +225,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             Image.asset("lib/images/Google.png"),
                             const SizedBox(width: 80,),
                             Text(
-                                getTranslated(context, "Login with Google",)!
+                                getTranslated(context, "Login with Google",)!,
+                              style: TextStyle( fontFamily: "Poppins",),
                             )
                           ],
                         ),
@@ -218,7 +235,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 15),
                     InkWell(
                       onTap: () {
-                        /*setState(() async{
+                        */
+                    /*setState(() async{
                      AccessToken? result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
 // or FacebookAuth.i.login()
                           if (result!.userId.isNotEmpty) {
@@ -229,6 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             print(result.userId);
                           }
                         });*/
+                    /*
                       },
                       child: Container(
                         padding: const EdgeInsets.all(10),
@@ -245,13 +264,17 @@ class _LoginScreenState extends State<LoginScreen> {
                               size: 20,
                             ),
                             const SizedBox(width: 80,),
-                            Text(getTranslated(context, "Login with FaceBook",)!
+                            Text(getTranslated(context, "Login with FaceBook")!
+                                ,style: TextStyle(
+                              fontFamily: "Poppins",
+                              ),
                             )
                           ],
                         ),
                       ),
                     ),
                     const SizedBox(height: 10),
+
                     Container(
                       height: 45,
                       width: MediaQuery.of(context).size.width,
@@ -259,11 +282,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: SignInWithAppleButton(
                         text: getTranslated(context, "Sign in with Apple",)!
                         ,
-                        onPressed: () {
+                        onPressed: () async{
+                          final credential = await SignInWithApple.getAppleIDCredential(
+                            scopes: [
+                              AppleIDAuthorizationScopes.email,
+                              AppleIDAuthorizationScopes.fullName,
+                            ],
+                          );
 
+                          print(credential);
                         },
                       ),
-                    ),
+                    ),*/
+                    const SizedBox(height: 20),
                     InkWell(
                       onTap: (){
                         Navigator.push(context,
@@ -300,7 +331,51 @@ class _LoginScreenState extends State<LoginScreen> {
         listener: (context,state){
           if(state is ErrorLoginState){
             _scaffoldKey.currentState!.
-            showSnackBar(SnackBar(content: customText(state.error,color: Colors.white),
+            showSnackBar(SnackBar(content:
+            HtmlWidget(
+              state.error,
+
+              // all other parameters are optional, a few notable params:
+
+              // specify custom styling for an element
+              // see supported inline styling below
+              customStylesBuilder: (element) {
+                if (element.classes.contains('foo')) {
+                  return {'color': 'red'};
+                }
+
+                return null;
+              },
+              // render a custom widget
+              customWidgetBuilder: (element) {
+                if (element.attributes['foo'] == 'bar') {
+                  return Container();
+                }
+                return null;
+              },
+              // turn on selectable if required (it's disabled by default)
+              isSelectable: true,
+
+              // these callbacks are called when a complicated element is loading
+              // or failed to render allowing the app to render progress indicator
+              // and fallback widget
+              onErrorBuilder: (context, element, error) =>
+                  customText(state.error,color: Colors.white),
+              onLoadingBuilder: (context, element, loadingProgress) =>
+                  CircularProgressIndicator(),
+              // this callback will be triggered when user taps a link
+
+              // select the render mode for HTML body
+              // by default, a simple `Column` is rendered
+              // consider using `ListView` or `SliverList` for better performance
+              renderMode: RenderMode.column,
+
+              // set the default styling for text
+              textStyle: TextStyle(fontSize: 14),
+
+              // turn on `webView` if you need IFRAME support (it's disabled by default)
+              webView: true,
+            ),
               backgroundColor: customColor,));
           }
         },

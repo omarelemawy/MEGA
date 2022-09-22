@@ -10,11 +10,11 @@ import 'package:like_button/like_button.dart';
 import '../../../constants/themes.dart';
 import '../../../constants/widget.dart';
 import '../../../localization/localization_constants.dart';
-import '../../../models/order_list_model.dart';
+import '../../../models/order_data_model.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
-   OrderDetailsScreen(/*this.ordersListData*/{Key? key}) : super(key: key);
-   /*OrderList? ordersListData;*/
+   OrderDetailsScreen(this.ordersListData,{Key? key}) : super(key: key);
+   OrderData? ordersListData;
   @override
   _OrderDetailsScreenState createState() => _OrderDetailsScreenState();
 }
@@ -22,9 +22,8 @@ class OrderDetailsScreen extends StatefulWidget {
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    /*print(widget.ordersListData!.status);*/
-    String? status;
-    var rng = Random().nextInt(4);
+    print(widget.ordersListData!.status);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -42,160 +41,195 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             fontWeight: FontWeight.bold),
         backgroundColor: Colors.white,
       ),
-     /* floatingActionButton: customFloatingActionButton(context,
+      /*floatingActionButton: customFloatingActionButton(context,
           text: getTranslated(context, "Notify Me")!, onPress: () {}),*/
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: HexColor("#087DA9")),
-                            child: Icon(
-                              Icons.check,
-                              color: Colors.white,
-                              size: 15,
-                            ),
-                          ),
-                          Container(
-                            height: 1,
-                            width: MediaQuery.of(context).size.width / 5.5,
-                            color: HexColor("#40BFFF"),
-                          )
-                        ],
+            // Padding(
+            //   padding: const EdgeInsets.all(20.0),
+            //   child: Row(
+            //     children: [
+            //       Column(
+            //         mainAxisAlignment: MainAxisAlignment.start,
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           Row(
+            //             children: [
+            //               SizedBox(
+            //                 width: 5,
+            //               ),
+            //               Container(
+            //                 padding: EdgeInsets.all(3),
+            //                 decoration: BoxDecoration(
+            //                     shape: BoxShape.circle,
+            //                     color: HexColor("#087DA9")),
+            //                 child: Icon(
+            //                   Icons.check,
+            //                   color: Colors.white,
+            //                   size: 15,
+            //                 ),
+            //               ),
+            //               Container(
+            //                 height: 1,
+            //                 width: MediaQuery.of(context).size.width / 5.5,
+            //                 color: HexColor("#40BFFF"),
+            //               )
+            //             ],
+            //           ),
+            //           SizedBox(
+            //             height: 10,
+            //           ),
+            //           customText(getTranslated(context, "Packing")!,
+            //               color: customTextColor.withOpacity(.5))
+            //         ],
+            //       ),
+            //
+            //       Column(
+            //         mainAxisAlignment: MainAxisAlignment.start,
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           Row(
+            //             children: [
+            //               Container(
+            //                 padding: EdgeInsets.all(3),
+            //                 decoration: BoxDecoration(
+            //                     shape: BoxShape.circle,
+            //                     color: rng/*widget.ordersListData!.status!*/ >= 1 ?
+            //                     HexColor("#087DA9"):
+            //                     HexColor("#EBF0FF")
+            //
+            //                 ),
+            //                 child: Icon(
+            //                   Icons.check,
+            //                   color: Colors.white,
+            //                   size: 15,
+            //                 ),
+            //               ),
+            //               Container(
+            //                 height: 1,
+            //                 width: MediaQuery.of(context).size.width / 5.5,
+            //                 color: rng/*widget.ordersListData!.status!*/ >= 1 ?
+            //                 HexColor("#087DA9")
+            //                 :HexColor("#EBF0FF"),
+            //               )
+            //             ],
+            //           ),
+            //           SizedBox(
+            //             height: 10,
+            //           ),
+            //           customText(getTranslated(context,"Shipping")!,
+            //               color: customTextColor.withOpacity(.5))
+            //         ],
+            //       ),
+            //
+            //
+            //       Column(
+            //         mainAxisAlignment: MainAxisAlignment.start,
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           Row(
+            //             children: [
+            //               Container(
+            //                 padding: EdgeInsets.all(3),
+            //                 decoration: BoxDecoration(
+            //                     shape: BoxShape.circle,
+            //                     color:/*widget.ordersListData!.status!*/rng >= 2 ?
+            //                     HexColor("#087DA9")
+            //                         :HexColor("#EBF0FF")),
+            //                 child: Icon(
+            //                   Icons.check,
+            //                   color: Colors.white,
+            //                   size: 15,
+            //                 ),
+            //               ),
+            //               Container(
+            //                 height: 1,
+            //                 width: MediaQuery.of(context).size.width / 5.5,
+            //                 color: rng/*widget.ordersListData!.status!*/ >= 2 ?
+            //                 HexColor("#087DA9")
+            //                     :HexColor("#EBF0FF"),
+            //               )
+            //             ],
+            //           ),
+            //           SizedBox(
+            //             height: 10,
+            //           ),
+            //           customText(getTranslated(context,"Arriving")!
+            //               ,
+            //               color: customTextColor.withOpacity(.5))
+            //         ],
+            //       ),
+            //
+            //       Column(
+            //         mainAxisAlignment: MainAxisAlignment.start,
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           Row(
+            //             children: [
+            //               Container(
+            //                 padding: EdgeInsets.all(3),
+            //                 decoration: BoxDecoration(
+            //                     shape: BoxShape.circle,
+            //                     color: rng/*widget.ordersListData!.status!*/ >= 3 ?
+            //                     HexColor("#087DA9")
+            //                         :HexColor("#EBF0FF")
+            //                 ),
+            //                 child: Icon(
+            //                   Icons.check,
+            //                   color: Colors.white,
+            //                   size: 15,
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //           SizedBox(
+            //             height: 10,
+            //           ),
+            //           customText(getTranslated(context,"success",)!
+            //               ,
+            //               color: customTextColor.withOpacity(.5))
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: HexColor("#087DA9")),
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 30,
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      customText(getTranslated(context, "Packing")!,
-                          color: customTextColor.withOpacity(.5))
-                    ],
-                  ),
+                    ),
 
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: rng/*widget.ordersListData!.status!*/ >= 1 ?
-                                HexColor("#087DA9"):
-                                HexColor("#EBF0FF")
+                  ],
+                ),
 
-                            ),
-                            child: Icon(
-                              Icons.check,
-                              color: Colors.white,
-                              size: 15,
-                            ),
-                          ),
-                          Container(
-                            height: 1,
-                            width: MediaQuery.of(context).size.width / 5.5,
-                            color: rng/*widget.ordersListData!.status!*/ >= 1 ?
-                            HexColor("#087DA9")
-                            :HexColor("#EBF0FF"),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      customText(getTranslated(context,"Shipping")!,
-                          color: customTextColor.withOpacity(.5))
-                    ],
-                  ),
-
-
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color:/*widget.ordersListData!.status!*/rng >= 2 ?
-                                HexColor("#087DA9")
-                                    :HexColor("#EBF0FF")),
-                            child: Icon(
-                              Icons.check,
-                              color: Colors.white,
-                              size: 15,
-                            ),
-                          ),
-                          Container(
-                            height: 1,
-                            width: MediaQuery.of(context).size.width / 5.5,
-                            color: rng/*widget.ordersListData!.status!*/ >= 2 ?
-                            HexColor("#087DA9")
-                                :HexColor("#EBF0FF"),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      customText(getTranslated(context,"Arriving")!
-                          ,
-                          color: customTextColor.withOpacity(.5))
-                    ],
-                  ),
-
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: rng/*widget.ordersListData!.status!*/ >= 3 ?
-                                HexColor("#087DA9")
-                                    :HexColor("#EBF0FF")
-                            ),
-                            child: Icon(
-                              Icons.check,
-                              color: Colors.white,
-                              size: 15,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      customText(getTranslated(context,"success",)!
-                          ,
-                          color: customTextColor.withOpacity(.5))
-                    ],
-                  ),
-                ],
-              ),
+                SizedBox(
+                  height: 10,
+                ),
+                customText(widget.ordersListData!.status!,
+                    color: customTextColor.withOpacity(.5))
+              ],
             ),
-
 
             Row(
               children: [
@@ -217,12 +251,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 itemBuilder: (context, index) =>  Padding(
                   padding: EdgeInsets.only(bottom: 10.0),
                   child: CartItem(
-                    /*widget.ordersListData!.items![index]*/
+                    widget.ordersListData!.lineItems![index]
                   ),
                 ),
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 4/*widget.ordersListData!.items!.length*/,
+                itemCount: widget.ordersListData!.lineItems!.length,
                 padding: EdgeInsets.all(0),
               ),
             ),
@@ -256,16 +290,16 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                 /* Row(
                     children: [
                       customText(
                           getTranslated(context,"Date Shipping",)!
                           ,
                           color: HexColor("9098B1"), size: 12),
                       Spacer(),
-                      customText("najnisisjnjsnjs"/*widget.ordersListData!.shippingDate!*/, size: 12),
+                      customText(widget.ordersListData!., size: 12),
                     ],
-                  ),
+                  ),*/
                   SizedBox(
                     height: 010,
                   ),
@@ -288,13 +322,15 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           getTranslated(context,"Shipment.Num")!,
                           color: HexColor("9098B1"), size: 12),
                       Spacer(),
-                      customText("12000"/*widget.ordersListData!.shippingNo!*/, size: 12),
+                      customText(widget.ordersListData!.number!, size: 12),
                     ],
                   ),
+
                   SizedBox(
                     height: 10,
                   ),
                   Row(
+
                     children: [
                       customText(
                           getTranslated(context,"Address")!
@@ -304,9 +340,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
                       /*widget.ordersListData!.shippingAddress==null?
                       Container():*/
-                      Expanded(
+                         Expanded(
                           child: customText(
-                             "Mohamed Maonerfbh st."/* widget.ordersListData!.shippingAddress!.address!*/,
+                             widget.ordersListData!.shipping!.address1!,
                               max: 2,
                               overflow: TextOverflow.ellipsis,
                               size: 12)),
@@ -341,10 +377,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         customText(
                             getTranslated(context,"Items")!,
                             color: HexColor("#9098B1"), size: 12),
-                        customText("12"/*widget.ordersListData!.itemsCount.toString()*/,
+                        customText(widget.ordersListData!.lineItems!.length.toString(),
                             color: HexColor("#9098B1"), size: 12),
                         const Spacer(),
-                        customText("SAR ${"120"/*widget.ordersListData!.total!*/}",
+                        customText("SAR ${widget.ordersListData!.total!}",
                             color: customTextColor, size: 12),
                       ],
                     ),
@@ -358,7 +394,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             ,
                             color: HexColor("#9098B1"), size: 12),
                         const Spacer(),
-                        customText("SAR ${"30"/*widget.ordersListData!.shippingCost!*/}",
+                        customText("SAR ${widget.ordersListData!.shippingTotal!}",
                             color: customTextColor, size: 12),
                       ],
                     ),
@@ -390,7 +426,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             size: 12),
                         const Spacer(),
                         customText(
-                            "SAR ${"40"/*widget.ordersListData!.discount!*/}"
+                            "SAR ${widget.ordersListData!.discountTotal!}"
                             ,color: customTextColor,
                             size: 12),
                       ],
@@ -423,10 +459,17 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         const Spacer(),
                         customText(
                             "SAR ${
-                                (int.parse( "30"/*widget.ordersListData!.total!*/)+
-                                   40/*widget.ordersListData!.shippingCost!*/)
+                                widget.ordersListData!.total!
+                               /* (int.parse( "30"*/
+                            /*widget.ordersListData!.total!*/
+                            /*)+
+                                   40*/
+                            /*widget.ordersListData!.shippingCost!*/
+                            /*)
                                     -
-                                    int.parse("12"/*widget.ordersListData!.discount!*/)
+                                    int.parse("12"*/
+                            /*widget.ordersListData!.discount!*/
+                            /*)*/
                             }",
                             color: HexColor("#40BFFF"), size: 12),
                       ],
@@ -446,8 +489,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 }
 
 class CartItem extends StatefulWidget {
-   CartItem(/*this.itemsordersListData,*/{Key? key}) : super(key: key);
-   /*Items? itemsordersListData;*/
+   CartItem(this.itemsOrdersListData,{Key? key}) : super(key: key);
+   LineItems? itemsOrdersListData;
   @override
   _CartItemState createState() => _CartItemState();
 }
@@ -469,8 +512,7 @@ class _CartItemState extends State<CartItem> {
               height: 100,
               width: 100,
               child: customCachedNetworkImage(
-                 url: "https://megamatgr.com/wp-content/uploads/2022/07/5d768b88-8c3e-4c2e-9d94-cd739e41f015-300x300.jpg"
-                /*widget.itemsordersListData!.photos![0].url*/,
+                 url: widget.itemsOrdersListData!.image!.src,
                 context: context,
               ),
             ),
@@ -489,7 +531,7 @@ class _CartItemState extends State<CartItem> {
                      Expanded(
                       flex: 7,
                       child: ExpandableText(
-                        "hosdifhvysudb"/*widget.itemsordersListData!.name!*/,
+                        widget.itemsOrdersListData!.name!,
                         expandText: getTranslated(context,"show more")!,
                         collapseText: getTranslated(context,"show less")!,
                         expandOnTextTap: true,
@@ -497,8 +539,10 @@ class _CartItemState extends State<CartItem> {
                         style: TextStyle(
                             color: customTextColor,
                             fontWeight: FontWeight.bold,
-                            fontSize: 12),
+                            fontSize: 12,
+                            fontFamily: "Poppins"),
                         linkColor: Colors.blue,
+
                       ),
                     ),
                     const SizedBox(
@@ -508,12 +552,12 @@ class _CartItemState extends State<CartItem> {
                       flex: 2,
                       child: Text(
                         "${getTranslated(context, "Items")} ${
-                         10
-                        /*widget.itemsordersListData!.quantity.toString()*/}"
+                        widget.itemsOrdersListData!.quantity.toString()}"
                       ,style: TextStyle(
                           fontWeight: FontWeight.w200,
                           color: HexColor("#9098B1"),
                           fontSize: 12,
+                          fontFamily: "Poppins"
                       ),)
                     ),
                   ],
@@ -523,16 +567,17 @@ class _CartItemState extends State<CartItem> {
                 ),
                 SizedBox(
                   width: 90,
-                  child: /*widget.itemsordersListData!.price == null ?
-                  Container() :*/
+                  child: widget.itemsOrdersListData!.price == null ?
+                  Container() :
                   Text(
-                    /*widget.itemsordersListData!.offer==null ?
-                    "${widget.itemsordersListData!.price} SAR" :*/
-                    "${40/*widget.itemsordersListData!.offer!*/} SAR",
+                    widget.itemsOrdersListData!.price==null ?
+                    "${widget.itemsOrdersListData!.price} SAR" :
+                    "${widget.itemsOrdersListData!.price} SAR",
                     maxLines: 1,
                     style:  TextStyle(
                         fontWeight: FontWeight.bold,
                         color: HexColor("#40BFFF"),
+                        fontFamily: "Poppins",
                         fontSize: 12,
                         overflow: TextOverflow.ellipsis
                     ),
@@ -541,11 +586,13 @@ class _CartItemState extends State<CartItem> {
                 const SizedBox(height: 5,),
                 /*widget.itemsordersListData!.offer == null ?
                 Container() :*/
-                Row(
+               /* Row(
                   children: [
                     SizedBox(
                       child: Text(
-                        "${40/*widget.itemsordersListData!.price!*/} SAR",
+                        "${40*/
+                /*widget.itemsordersListData!.price!*/
+                /*} SAR",
                         maxLines: 1,
                         style: TextStyle(
                             fontWeight: FontWeight.w200,
@@ -559,8 +606,10 @@ class _CartItemState extends State<CartItem> {
                     const SizedBox(width: 8,),
                     SizedBox(
                       child: Text(
-                        "${getOffer("10"/*widget.itemsordersListData!.offer!*/,
-                            "120"/*widget.itemsordersListData!.price!*/)} %"
+                        "${getOffer("10"*/
+                /*widget.itemsordersListData!.offer!*//*,
+                            "120"*/
+                /*widget.itemsordersListData!.price!*//*)} %"
                         ,
                         maxLines: 1,
                         style: TextStyle(
@@ -572,8 +621,7 @@ class _CartItemState extends State<CartItem> {
                       ),
                     ),
                   ],
-                ),
-
+                ),*/
               ],
             ),
           )

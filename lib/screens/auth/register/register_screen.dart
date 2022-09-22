@@ -1,10 +1,7 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gender_picker/source/enums.dart';
-import 'package:gender_picker/source/gender_picker.dart';
 import 'package:gnon/localization/localization_constants.dart';
 import 'package:gnon/screens/auth/login/login_screen.dart';
 import 'package:gnon/screens/auth/register/cubit_register/register_cubit.dart';
@@ -36,6 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController phoneController=TextEditingController();
   TextEditingController passController=TextEditingController();
   TextEditingController confirmPassController=TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -50,7 +48,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           }
         },
         builder: (BuildContext context, Object? state) {
-          String? checkPhoneError(){
+
+
+         /* String? checkPhoneError(){
             if(state is ErrorRegisterState){
               return state.errorPhone!.isNotEmpty?state.errorPhone!:null;
             }
@@ -64,7 +64,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             if(state is ErrorRegisterState){
               return state.errorPass!.isNotEmpty?state.errorPass!:null;
             }
-          }
+          }*/
+
+
           return Scaffold(
             key: _scaffoldKey,
             body: Container(
@@ -96,11 +98,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         getTranslated(context, " Oops! Your Name Is Not Correct ",)!
                             : null,
                         decoration: InputDecoration(
+                            labelStyle: TextStyle(
+                              fontFamily: "Poppins",
+                            ),
+                            hintStyle: TextStyle(
+                              fontFamily: "Poppins",
+                            ),
                             contentPadding: const EdgeInsets.all(10),
-                            prefixIcon:  Icon(Icons.person_outline,color:
-                            customTextColor.withOpacity(0.5),),
-                            hintStyle: TextStyle(color:customTextColor.withOpacity(0.5) ),
-                            hintText: getTranslated(context, "Full Name",)!
+                            prefixIcon:  Icon(Icons.person_outline),
+                            hintText: "اسم المستخدم"/*getTranslated(context, "Full Name",)!*/
                             ,border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         )
@@ -120,10 +126,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           return null;
                         },
                         decoration: InputDecoration(
-                            errorText: checkEmailError(),
+                           /* errorText: checkEmailError(),*/
                             contentPadding: const EdgeInsets.all(10),
-                            hintStyle: TextStyle(color:customTextColor.withOpacity(0.5) ),
-                            prefixIcon:  Icon(Icons.email_outlined,color:customTextColor.withOpacity(0.5)),
+                            labelStyle: TextStyle(
+                              fontFamily: "Poppins",
+                            ),
+                            hintStyle: TextStyle(
+                              fontFamily: "Poppins",
+                            ),
+                            prefixIcon:  Icon(Icons.email_outlined),
                             hintText: getTranslated(context, "Your Email",)!,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)
@@ -149,10 +160,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           phoneNumber = val;
                         },
                         decoration: InputDecoration(
-                            errorText: checkPhoneError(),
+                            /*errorText: checkPhoneError(),*/
                             contentPadding: const EdgeInsets.all(10),
-                            hintStyle: TextStyle(color:customTextColor.withOpacity(0.5) ),
-                            prefixIcon:  Icon(Icons.phone,color:customTextColor.withOpacity(0.5)),
+                            labelStyle: TextStyle(
+                              fontFamily: "Poppins",
+                            ),
+                            hintStyle: TextStyle(
+                              fontFamily: "Poppins",
+                            ),
+                            prefixIcon:  Icon(Icons.phone),
                             hintText: getTranslated(context, "Your Phone",)!,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)
@@ -240,7 +256,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 obscurePassword= !obscurePassword;
                               });
                             },obscurePassword,
-                          error: checkPassError()
+                          /*error: checkPassError()*/
                         ),
                       ),
                       Row(
@@ -270,11 +286,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if(val!.isEmpty) {
                            return getTranslated(context,
                               " Oops! Your Confirm Password Is Not Correct ",);
-                          }else{
+                          }/*else{
                             if(state is ErrorRegisterState){
                                return state.errorPass!.isNotEmpty?state.errorPass:null;
                             }
-                          }
+                          }*/
                           return null;
                         },
                         obscureText:obscureConfirmPassword,
@@ -319,9 +335,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       customButton((){
                         if (_formKey.currentState!.validate()) {
                           if(confirmPassController.text==passController.text){
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:
-                                (context)=>HomeScreen("en",0,email: "email",)), (route) => false);
-                            /*RegisterCubit.get(context).registerWithEmail
+                            RegisterCubit.get(context).getToken
                               (nameController.text,
                                 phoneController.text,
                                 countryCode.substring(1),
@@ -329,7 +343,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 passController.text,
                                 Localizations.localeOf(context).languageCode,
                                 context,
-                                myGender);*/
+                                myGender);
                           }else{
                             _scaffoldKey.
                             currentState!.

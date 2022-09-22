@@ -7,7 +7,7 @@ class HomeCategooriesBody extends StatelessWidget {
 
   HomeCategooriesBody(this.myContext,
       this.categoryList,
-      this.lang,
+
       this.phone,
       {
     Key? key,

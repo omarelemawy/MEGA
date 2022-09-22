@@ -1,4 +1,6 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gnon/sharedPreferences.dart';
 
@@ -12,7 +14,7 @@ class ExploreCubit extends Cubit<ExploreState> {
 
   List<ProductsModel> productList=[];
 
-  Future<List<ProductsModel>?> getExploreItem
+/*  Future<List<ProductsModel>?> getExploreItem
       (lang,name,userId)async{
     emit(GetLoadingExploreState());
     var response = await Dio().get(
@@ -29,17 +31,48 @@ class ExploreCubit extends Cubit<ExploreState> {
     if(response.data["status"]=="success")
     {
       emit(GetSuccessExploreState());
-      return ProductsCategoryModel.fromJson(response.data).data;
+      return ProductsModel.fromJson(response.data).data;
     }else{
       emit(GetErrorExploreState(response.data["message"]));
     }
   }
+
   void getExplore(lang,name){
     MySharedPreferences().getUserId().then((value){
       getExploreItem(lang, name,value).then((value) {
         productList = value!;
       });
     });
+  }*/
+  Future<List<ProductsModel>?> getExploreItem
+      (name,userId)async{
+
+    emit(GetLoadingExploreState());
+    final response = await http.get(
+      Uri.parse(Utils.CategoryProduct_URL+"?"+Utils.BASEData_URL+"&search=$name"),
+    );
+    print(response.body);
+    Iterable l = json.decode(response.body);
+
+    if(response.statusCode == 200)
+    {
+      emit(GetSuccessExploreState());
+
+      return List<ProductsModel>.from(l.map((model)=> ProductsModel.fromJson(model)));
+    }else{
+      emit(GetErrorExploreState(json.decode(response.body)["message"]));
+    }
+  }
+
+
+
+  void getExplore(name){
+    MySharedPreferences().getUserId().then((value) {
+      getExploreItem(name,value).then((value) {
+        productList=value!;
+      });
+    });
+
   }
 
 }

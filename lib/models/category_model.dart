@@ -1,33 +1,4 @@
 
-/*
-class CategoryList {
-  List<CategoryListModel>? ategoryListModel;
-
-  CategoryList();
-
-  CategoryList.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['slug'] = this.slug;
-    data['parent'] = this.parent;
-    data['description'] = this.description;
-    data['display'] = this.display;
-    if (this.image != null) {
-      data['image'] = this.image!.toJson();
-    }
-    data['menu_order'] = this.menuOrder;
-    data['count'] = this.count;
-    if (this.lLinks != null) {
-      data['_links'] = this.lLinks!.toJson();
-    }
-    return data;
-  }
-}*/
 class CategoryListModel {
   int? id;
   String? name;
@@ -39,7 +10,6 @@ class CategoryListModel {
   int? menuOrder;
   int? count;
   Links? lLinks;
-
   CategoryListModel(
       {this.id,
         this.name,

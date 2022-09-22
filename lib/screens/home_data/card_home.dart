@@ -14,9 +14,10 @@ import '../account/view_dialog.dart';
 import 'item_details_screen.dart';
 
 class CardHome extends StatefulWidget {
-  CardHome(this.myContext,{Key? key, this.list, this.index}) : super(key: key);
+  CardHome(this.myContext,{Key? key, this.list, this.index,this.favList}) : super(key: key);
   var myContext;
   List<ProductsModel>? list;
+  List? favList;
   int? index;
 
   @override
@@ -24,35 +25,36 @@ class CardHome extends StatefulWidget {
 }
 
 class _CardHomeState extends State<CardHome> {
+
   @override
   Widget build(BuildContext context) {
+    print(widget.favList.toString()+"vd");
     return BlocProvider(
-      create: (context) => HomeCubit(),
+      create: (context) => HomeCubit()..getDataFromDatabaseCard
+        (widget.list,widget.index),
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
         },
         builder: (context, state) {
-          Future<bool> onLikeButtonTapped(bool isLiked) async {
+          Future<bool> onLikeButtonTapped(bool isLiked)
+          async {
             var useId = await MySharedPreferences().getUserId();
             if (useId != null&& useId != "") {
+
               if (isLiked) {
-                HomeCubit.get(context).makeDisLikeProduct(
-                    widget.list![widget.index!].id!,
-                    useId,
-                    Localizations.localeOf(context).languageCode,
-                    context
-                );
-                print("isLiked");
-                return !isLiked;
-              } else {
-                print("isNotLiked");
-                HomeCubit.get(context).makeLikeProduct(
-                  widget.list![widget.index!].id!,
-                  useId,
-                  Localizations.localeOf(context).languageCode,context
-                );
+                HomeCubit.get(context).
+                deleteDateCard(id:widget.list![widget.index!].id.toString());
                 return !isLiked;
               }
+              else {
+                HomeCubit.get(context).
+                insertToDatabaseCard(widget.list,
+                    widget.index,
+                    title:widget.list![widget.index!].id.toString());
+                print("isLiked");
+                return !isLiked;
+              }
+
             }else{
               showDialog(
                   context: context,
@@ -80,7 +82,7 @@ class _CardHomeState extends State<CardHome> {
 
                 Stack(
                   children: [
-                    widget.list![widget.index!].photos!.isEmpty ?
+                    widget.list![widget.index!].images![0].src==null?
                     Container(
                       height: MediaQuery.of(context).size.height/3,
                       width: MediaQuery
@@ -96,68 +98,71 @@ class _CardHomeState extends State<CardHome> {
                           .size
                           .width / 2.1,
                       child: customCachedNetworkImage(
-                        boxFit: BoxFit.cover,
+                        boxFit: BoxFit.fill,
                         context: context,
-                        url: widget.list![widget.index!].photos![0].url,
+                        url: widget.list![widget.index!].images![0].src,
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: LikeButton(
-                          /*onTap: onLikeButtonTapped,*/
-                          size: 20,
-                          isLiked: false
-                          /*widget.list![widget.index!].isLiked=="0"?false:true*/,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          circleColor:
-                          const CircleColor(start:  Color(0xff00ddff),
-                              end: Color(0xff0099cc)),
-                          bubblesColor: const BubblesColor(
-                            dotPrimaryColor:  Color(0xff33b5e5),
-                            dotSecondaryColor: Color(0xff0099cc),
-                          ),
-                          likeBuilder: (bool isLiked) {
-                            print(isLiked.toString());
-                            return DecoratedIcon(
-                              isLiked ? Icons.favorite : Icons.favorite_outline,
-                              color: isLiked ? HexColor("#FB7181") :
-                              Colors.white,
-                              size: 20.0,
-                              shadows: const[
-                                 BoxShadow(
-                                  blurRadius: 12.0,
-                                  color: customColor,
-                                ),
-                                 BoxShadow(
-                                  blurRadius: 12.0,
-                                  color: customColor,
-                                  offset:  Offset(0, 6.0),
-                                ),
-                              ],
-                            )
-                              /*Container(
-                              padding: const EdgeInsets.all(4.0),
-                              decoration:const BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                      blurRadius: .5,
-                                    ),
-                                  ]),child: Icon(
-                              isLiked ? Icons.favorite : Icons.favorite_outline,
-                              color: isLiked ? HexColor("#FB7181") : Colors
-                                  .grey[300],
-                              size: 25,
-                            ),)*/;
-                          },
-                        ),
-                      ),
-                    ),
+                    // /*Align(
+                    //   alignment: Alignment.topLeft,
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.all(8.0),
+                    //     child: LikeButton(
+                    //       onTap: onLikeButtonTapped,
+                    //       size: 20,
+                    //       isLiked: HomeCubit.get(context).isLikeCard,
+                    //       mainAxisAlignment: MainAxisAlignment.start,
+                    //       crossAxisAlignment: CrossAxisAlignment.start,
+                    //       circleColor:
+                    //       const CircleColor(start:  Color(0xff00ddff),
+                    //           end: Color(0xff0099cc)),
+                    //       bubblesColor: const BubblesColor(
+                    //         dotPrimaryColor:  Color(0xff33b5e5),
+                    //         dotSecondaryColor: Color(0xff0099cc),
+                    //       ),
+                    //       likeBuilder: (bool isLiked) {
+                    //         print(isLiked.toString());
+                    //         return DecoratedIcon(
+                    //           isLiked ? Icons.favorite : Icons.favorite_outline,
+                    //           color: isLiked ? HexColor("#FB7181") :
+                    //           Colors.grey[500],
+                    //           size: 20.0,
+                    //           */
+                    // /*shadows: const[
+                    //              BoxShadow(
+                    //               blurRadius: 12.0,
+                    //               color: customColor,
+                    //             ),
+                    //              BoxShadow(
+                    //               blurRadius: 12.0,
+                    //               color: customColor,
+                    //               offset:  Offset(0, 6.0),
+                    //             ),
+                    //           ],*/
+                    // /*
+                    //         )
+                    //           */
+                    // /*Container(
+                    //           padding: const EdgeInsets.all(4.0),
+                    //           decoration:const BoxDecoration(
+                    //               color: Colors.white,
+                    //               shape: BoxShape.circle,
+                    //               boxShadow: [
+                    //                 BoxShadow(
+                    //                   color: Colors.grey,
+                    //                   blurRadius: .5,
+                    //                 ),
+                    //               ]),child: Icon(
+                    //           isLiked ? Icons.favorite : Icons.favorite_outline,
+                    //           color: isLiked ? HexColor("#FB7181") : Colors
+                    //               .grey[300],
+                    //           size: 25,
+                    //         ),)*/
+                    // /*;
+                    //       },
+                    //     ),
+                    //   ),
+                    // ),*/
                   ],
                 ),
 
@@ -182,44 +187,46 @@ class _CardHomeState extends State<CardHome> {
 
                 SizedBox(
                   width: 90,
-                  child: widget.list![widget.index!].price == null ?
+                  child: widget.list![widget.index!].regularPrice == null ?
                   Container() :
                   Text(
-                    widget.list![widget.index!].offer == null ?
-                    "${widget.list![widget.index!].price!} SAR" :
-                    "${widget.list![widget.index!].offer!} SAR",
+                    !widget.list![widget.index!].onSale! ?
+                    "${widget.list![widget.index!].regularPrice!} ر.س" :
+                    "${widget.list![widget.index!].salePrice!} ر.س",
                     maxLines: 1,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                         fontSize: 12,
-                        overflow: TextOverflow.ellipsis
+                        overflow: TextOverflow.ellipsis,
+                        fontFamily: "Poppins"
                     ),
                   ),
                 ),
                 const SizedBox(height: 5,),
-                widget.list![widget.index!].offer == null ?
+                !widget.list![widget.index!].onSale!?
                 Container() :
                 Row(
                   children: [
                     SizedBox(
                       child: Text(
-                        "${widget.list![widget.index!].price!} SAR",
+                        "${widget.list![widget.index!].regularPrice!} ر.س",
                         maxLines: 1,
                         style: TextStyle(
                             fontWeight: FontWeight.w200,
                             color: HexColor("#9098B1"),
                             fontSize: 12,
                             overflow: TextOverflow.ellipsis,
-                            decoration: TextDecoration.lineThrough
+                            decoration: TextDecoration.lineThrough,
+                          fontFamily: "Poppins"
                         ),
                       ),
                     ),
                     const SizedBox(width: 8,),
                     SizedBox(
                       child: Text(
-                        "${getOffer(widget.list![widget.index!].offer!,
-                            widget.list![widget.index!].price!)} % Off"
+                        "${getOffer(widget.list![widget.index!].salePrice!,
+                            widget.list![widget.index!].regularPrice!)} % Off"
                         ,
                         maxLines: 1,
                         style: TextStyle(
@@ -227,6 +234,7 @@ class _CardHomeState extends State<CardHome> {
                           color: HexColor("#FB7181"),
                           fontSize: 12,
                           overflow: TextOverflow.ellipsis,
+                          fontFamily: "Poppins"
                         ),
                       ),
                     ),
@@ -240,9 +248,9 @@ class _CardHomeState extends State<CardHome> {
     );
   }
 
-  double getOffer(String offer, String price) {
-    return ((int.parse(price) - int.parse(offer)) /
-        int.parse(price)) * 100;
+  String getOffer(String offer, String price) {
+    return (((int.parse(price) - int.parse(offer)) /
+        int.parse(price)) * 100).toStringAsFixed(1);
   }
 }
 
